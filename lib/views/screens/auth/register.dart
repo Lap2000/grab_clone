@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grab_clone/controllers/authController/register_controller.dart';
 import 'package:grab_clone/views/widgets/custom_button1.dart';
 import 'package:grab_clone/views/widgets/custom_text.dart';
 import 'package:grab_clone/views/widgets/custom_textformfield.dart';
+
+import '../../../controllers/auth_controller/register_controller.dart';
 
 class Register extends GetView<RegisterController> {
   Register({Key? key}) : super(key: key);

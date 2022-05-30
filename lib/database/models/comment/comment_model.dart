@@ -62,7 +62,7 @@ class CommentModel {
 
   @override
   String toString() {
-    return 'ProductModel(_id: $id,uID: $uID,comment:$comment, name: $name, score: $score, pID: $pID)';
+    return 'CommentModel(_id: $id,uID: $uID,comment:$comment, name: $name, score: $score, pID: $pID)';
   }
 
   @override

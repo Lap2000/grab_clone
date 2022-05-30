@@ -130,18 +130,18 @@ class HomeController extends GetxController {
             style: TextStyle(color: Colors.black, fontSize: 15),
           ));
     } else {
-      Get.snackbar(
-        "Search",
-        "Đã tìm thấy sản phẩm !",
-        titleText: Text(
-          'Search',
-          style: TextStyle(color: Colors.green, fontSize: 25),
-        ),
-        messageText: Text(
-          "Đã tìm thấy sản phẩm !",
-          style: TextStyle(color: Colors.black, fontSize: 15),
-        ),
-      );
+      // Get.snackbar(
+      //   "Search",
+      //   "Đã tìm thấy sản phẩm !",
+      //   titleText: Text(
+      //     'Search',
+      //     style: TextStyle(color: Colors.green, fontSize: 25),
+      //   ),
+      //   messageText: Text(
+      //     "Đã tìm thấy sản phẩm !",
+      //     style: TextStyle(color: Colors.black, fontSize: 15),
+      //   ),
+      // );
     }
   }
 }

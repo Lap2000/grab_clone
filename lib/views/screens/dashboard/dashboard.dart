@@ -3,10 +3,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/controllers/dashboard_controller.dart';
 import 'package:grab_clone/views/screens/dashboard/account/account_page.dart';
-import 'package:grab_clone/views/screens/dashboard/home/home_page.dart';
+import 'package:grab_clone/views/screens/dashboard/cart/cart_page.dart';
 import 'package:grab_clone/views/screens/dashboard/search/search_page.dart';
 
 import 'bottom_navigation.dart';
+import 'home/home_page.dart';
 
 class DashBoardPage extends StatelessWidget {
   @override

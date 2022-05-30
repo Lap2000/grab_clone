@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/bindings/evaluate_binding.dart';
 import 'package:grab_clone/bindings/map_binding.dart';
+import 'package:grab_clone/database/services/cart_services.dart';
 
 import '../../../../../../database/models/distant_model.dart';
 import '../../evaluate/evaluates_page.dart';
@@ -32,7 +33,7 @@ class ButtonRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: IconButton(
-              icon: Icon(Icons.map_outlined),
+              icon: const Icon(Icons.map_outlined),
               color: Colors.black,
               onPressed: () {
                 Get.to(() => MapPage(productDistance: productDistance),
@@ -59,13 +60,14 @@ class ButtonRow extends StatelessWidget {
                 height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(210, 6, 156, 156),
+                  color: const Color.fromARGB(210, 6, 156, 156),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Đánh giá sản phẩm',
-                    style: const TextStyle(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -77,39 +79,59 @@ class ButtonRow extends StatelessWidget {
           const SizedBox(width: 15),
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                ScaffoldMessenger.of(context).showMaterialBanner(
-                  MaterialBanner(
-                    content: const Text('Chức năng này đang được bảo trì!'),
-                    actions: [
-                      TextButton(
-                        child: const Text(
-                          'OK',
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
-                        ),
-                        onPressed: () {
-                          ScaffoldMessenger.of(context)
-                              .hideCurrentMaterialBanner();
-                        },
-                      ),
-                    ],
+              onTap: () async {
+                Get.snackbar(
+                  "",
+                  "",
+                  titleText: const Text(
+                    'Giỏ hàng',
+                    style: TextStyle(color: Colors.green, fontSize: 25),
+                  ),
+                  messageText: Text(
+                    'Thêm ${productDistance.product.name} thành công vào giỏ hàng!',
+                    style: const TextStyle(color: Colors.black, fontSize: 15),
                   ),
                 );
+                await Cartservices.AddProductIntoCart(
+                  pID: productDistance.product.id,
+                  pName: productDistance.product.name,
+                  pAmount: '1',
+                  pPrice: productDistance.product.price.toString(),
+                  pImage: productDistance.product.imagesProduct[0].toString(),
+                );
+                // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                // ScaffoldMessenger.of(context).showMaterialBanner(
+                //   MaterialBanner(
+                //     content: const Text('Chức năng này đang được bảo trì!'),
+                //     actions: [
+                //       TextButton(
+                //         child: const Text(
+                //           'OK',
+                //           style: TextStyle(
+                //             color: Colors.green,
+                //           ),
+                //         ),
+                //         onPressed: () {
+                //           ScaffoldMessenger.of(context)
+                //               .hideCurrentMaterialBanner();
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // );
               },
               child: Container(
                 height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(210, 6, 156, 156),
+                  color: const Color.fromARGB(210, 6, 156, 156),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Thêm vào giỏ',
-                    style: const TextStyle(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:grab_clone/controllers/homeController/home_controller.dart';
 import 'package:grab_clone/views/screens/dashboard/home/home_components/food_water_products.dart';
 import 'package:grab_clone/views/screens/dashboard/home/home_components/home_news.dart';
 
+import '../../../../controllers/user_home_controller/home_controller.dart';
 import 'home_components/recommend_products.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -21,7 +21,7 @@ class HomePage extends GetView<HomeController> {
               child: const Padding(
                 padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Text(
-                  "Sản phẩm phổ biến",
+                  "Món ngon gần bạn",
                   style: TextStyle(
                     color: Color(0xFF333333),
                     fontWeight: FontWeight.w500,

@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grab_clone/database/models/comment/comment_model.dart';
+import 'package:grab_clone/database/models/enterprise_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/product_model.dart';
 
 class ProductServices {
   static String baseApi = 'https://findwhere-app.herokuapp.com/';
+  //static String baseApi = 'http://192.168.1.7:5000/';
   static var client = http.Client();
 
   static Future<List<ProductModel>> getFindProductList(
@@ -27,6 +30,75 @@ class ProductServices {
       return jsonResponse.map((item) => ProductModel.fromMap(item)).toList();
     }
     return [];
+  }
+
+  static Future<List<ProductModel>> getProductListOfEnterprise(
+      {required id}) async {
+    final url =
+        Uri.parse(baseApi + 'product/getProductOfEnterpriseSort?id=' + id);
+
+    var response = await client.get(url, headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+    });
+    //var res = response.body;
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse =
+          jsonDecode(response.body)['data']['data']['products'];
+      if (jsonResponse.isEmpty) {
+        return [];
+      }
+      return jsonResponse.map((item) => ProductModel.fromMap(item)).toList();
+    }
+    return [];
+  }
+
+  static Future<EnterpriseModel?> getEnterPrise({required id}) async {
+    final url = Uri.parse(baseApi + 'user/getEnterpriseById?id=' + id);
+
+    var response = await client.get(url, headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+    });
+    //var res = response.body;
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body)['data'];
+      if (jsonResponse.isEmpty) {
+        return null;
+      }
+      return EnterpriseModel.fromMap(jsonResponse);
+    }
+    return null;
+  }
+
+  static addUsersHistory(
+      {required pID, required pName, required pPrice, required pImage}) async {
+    final url = Uri.parse(baseApi + 'user/addSearchHistory');
+    final storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'token');
+    print(value);
+    var response = await client.post(
+      url,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": 'Basic $value',
+      },
+      body: {
+        "pID": pID,
+        "pName": pName,
+        "pPrice": pPrice.toString(),
+        "pImage": pImage
+      },
+    );
+    var res = response.body;
+    print(res);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
+    }
   }
 
   static Future<List<ProductModel>> getProductListByType(

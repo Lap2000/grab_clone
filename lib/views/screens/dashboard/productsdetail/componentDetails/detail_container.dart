@@ -43,7 +43,9 @@ class DetailContainer extends StatelessWidget {
           //ProdDetBottom(price: product.price!,id: id, Product: product,),
           Padding(
               padding: EdgeInsets.only(bottom: 10),
-              child: ButtonRow(productDistance: productDistance)),
+              child: ButtonRow(
+                productDistance: productDistance,
+              )),
         ],
       ),
     );

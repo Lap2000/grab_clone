@@ -21,7 +21,7 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           Expanded(
@@ -31,7 +31,7 @@ class CustomSearchBar extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black87.withOpacity(0.3),
+                    color: Colors.black87.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 1,
                     offset: const Offset(1, 1), // changes position of shadow
@@ -46,7 +46,7 @@ class CustomSearchBar extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
-                    borderSide: BorderSide(color: Colors.black26, width: 1),
+                    borderSide: BorderSide(color: Colors.white24, width: 0.1),
                   ),
                   // enabledBorder: const OutlineInputBorder(
                   //   borderRadius: BorderRadius.all(
@@ -88,8 +88,8 @@ class CustomSearchBar extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
+                child: const Padding(
+                  padding: EdgeInsets.all(15),
                   child: Icon(
                     Icons.search,
                     size: 25.0,

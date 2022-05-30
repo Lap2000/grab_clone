@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grab_clone/controllers/authController/login_controller.dart';
 import 'package:grab_clone/routes/route.dart';
 import 'package:grab_clone/views/widgets/custom_button1.dart';
 import 'package:grab_clone/views/widgets/custom_textformfield.dart';
 
+import '../../../controllers/auth_controller/login_controller.dart';
 import '../../widgets/custom_text.dart';
 
 class Login extends GetView<LoginController> {

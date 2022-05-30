@@ -7,11 +7,13 @@ import 'package:grab_clone/views/screens/dashboard/search/search_widget/custom_s
 import 'package:grab_clone/views/screens/dashboard/search/search_widget/listview_foundProducts.dart';
 
 class SearchPage extends GetView<SearchController> {
+  const SearchPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFFF7F7F7),
+        backgroundColor: const Color(0xFFF7F7F7),
         body: CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(child: SizedBox(height: 5)),

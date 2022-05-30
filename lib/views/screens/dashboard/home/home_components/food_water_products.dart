@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../bindings/enterprise_binding.dart';
 import '../../../../../database/models/distant_model.dart';
-import '../../productsdetail/products_detailPage.dart';
+import '../../enterprise/enterprise_page.dart';
 
 class FoodAndWaterProduct extends StatelessWidget {
   final List<ProductDistance> productDistantsList;
@@ -28,13 +30,14 @@ class FoodAndWaterProduct extends StatelessWidget {
             itemBuilder: (ctx, i) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) => ProductsDetailPage(
-                        productDis: productDistantsList[i],
-                      ),
-                    ),
-                  );
+                  Get.to(
+                      () => EnterprisePage(
+                            distance: productDistantsList[i].distance,
+                            image:
+                                productDistantsList[i].product.imagesProduct[0],
+                            id: productDistantsList[i].product.E_id,
+                          ),
+                      binding: EnterpriseBinding());
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),

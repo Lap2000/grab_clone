@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:grab_clone/controllers/acountController/InformationPersional_controller.dart';
+import 'package:grab_clone/controllers/user_acount_controller/Information_persional_controller.dart';
 
 import '../../../../widgets/custom_button1.dart';
 import '../../../../widgets/custom_text.dart';
@@ -13,17 +13,31 @@ class ChangeInfamationPersional extends GetView<InformationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orangeAccent.shade100,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+        centerTitle: true,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.black87,
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Đổi thông tin cá nhân',
+          style: TextStyle(fontSize: 20, color: Colors.black87),
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Form(
           key: controller.infoFormKey,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,8 +54,8 @@ class ChangeInfamationPersional extends GetView<InformationController> {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 50,
+                const SizedBox(
+                  height: 20,
                 ),
                 Obx(
                   () => CustomTextFormField(
@@ -55,8 +69,8 @@ class ChangeInfamationPersional extends GetView<InformationController> {
                         return controller.validateNull(value!);
                       }),
                 ),
-                SizedBox(
-                  height: 30,
+                const SizedBox(
+                  height: 20,
                 ),
                 Obx(
                   () => CustomTextFormField(
@@ -67,10 +81,12 @@ class ChangeInfamationPersional extends GetView<InformationController> {
                       onSave: (value) {
                         controller.email.value = value!;
                       },
-                      validator: (value) {}),
+                      validator: (value) {
+                        return null;
+                      }),
                 ),
-                SizedBox(
-                  height: 30,
+                const SizedBox(
+                  height: 20,
                 ),
                 Obx(
                   () => CustomTextFormField(
@@ -84,37 +100,35 @@ class ChangeInfamationPersional extends GetView<InformationController> {
                         return controller.validatePhone(value!);
                       }),
                 ),
-                SizedBox(
-                  height: 30,
+                const SizedBox(
+                  height: 20,
                 ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: 'Gender',
-                        fontsize: 20,
-                        color: Colors.black,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(bottom: 35.0),
-                          child: Obx(() => DropdownButton(
-                                onChanged: (newValue) {
-                                  controller.setSelected(newValue);
-                                },
-                                value: controller.genderSelected.value,
-                                items: <String>[
-                                  'Male',
-                                  'Female'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ))),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'Gender',
+                      fontsize: 20,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 35.0),
+                        child: Obx(() => DropdownButton(
+                              onChanged: (newValue) {
+                                controller.setSelected(newValue);
+                              },
+                              value: controller.genderSelected.value,
+                              items: <String>[
+                                'Male',
+                                'Female'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ))),
+                  ],
                 ),
                 Obx(
                   () => Padding(
@@ -134,13 +148,13 @@ class ChangeInfamationPersional extends GetView<InformationController> {
                                   .split(' ')[0],
                             ),
                             IconButton(
-                              icon: Icon(Icons.calendar_today_rounded),
+                              icon: const Icon(Icons.calendar_today_rounded),
                               color: Colors.black,
                               onPressed: () => controller.selectDate(context),
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                           color: Colors.black38,
                         ),

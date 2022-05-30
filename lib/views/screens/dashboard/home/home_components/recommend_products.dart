@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../bindings/enterprise_binding.dart';
 import '../../../../../database/models/distant_model.dart';
-import '../../productsdetail/products_detailPage.dart';
+import '../../enterprise/enterprise_page.dart';
 
 class ListViewRecommendProduct extends StatelessWidget {
   final List<ProductDistance> productDistantsList;
@@ -17,7 +19,7 @@ class ListViewRecommendProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.only(top: 10,left: 15),
+        padding: const EdgeInsets.only(top: 10, left: 15),
         child: Container(
           height: 250,
           width: MediaQuery.of(context).size.width,
@@ -28,13 +30,21 @@ class ListViewRecommendProduct extends StatelessWidget {
             itemBuilder: (ctx, i) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) => ProductsDetailPage(
-                        productDis: productDistantsList[i],
-                      ),
-                    ),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (ctx) => ProductsDetailPage(
+                  //       productDis: productDistantsList[i],
+                  //     ),
+                  //   ),
+                  // );
+                  Get.to(
+                      () => EnterprisePage(
+                            distance: productDistantsList[i].distance,
+                            image:
+                                productDistantsList[i].product.imagesProduct[0],
+                            id: productDistantsList[i].product.E_id,
+                          ),
+                      binding: EnterpriseBinding());
                 },
                 child: Stack(
                   clipBehavior: Clip.none,

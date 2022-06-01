@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class Cartservices {
@@ -117,11 +120,10 @@ class Cartservices {
     }
   }
 
-  static EditProductInCart({required pID, required pAmount}) async {
+  static EditProductInCart(
+      {required pID, required pAmount, required token}) async {
     print(pAmount);
     final url = Uri.parse(baseApi + 'cart/editProductInCart');
-    final storage = new FlutterSecureStorage();
-    String? token = await storage.read(key: 'token');
     var response = await client.post(
       url,
       headers: {
@@ -165,6 +167,64 @@ class Cartservices {
     } else {
       print(response.statusCode);
       return res;
+    }
+  }
+
+  static placeOrder(
+      {required BuildContext context,
+      required name,
+      required phone,
+      required location,
+      required lat,
+      required lng,
+      required enterpriseName,
+      required orderDetail,
+      required totalPrice,
+      required eID}) async {
+    final url = Uri.parse(baseApi + 'order/placeOrder');
+    final storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'token');
+    Map<String, dynamic> body = {
+      'name': name,
+      'phone': phone,
+      'location': location,
+      'lat': lat,
+      'lng': lng,
+      'eName': enterpriseName,
+      'orderDetail': orderDetail,
+      'eID': eID,
+      'totalPrice': totalPrice,
+      'discount': 0,
+    };
+    var response = await client.post(
+      url,
+      headers: {
+        // "Content-type": "application/x-www-form-urlencoded",
+        // "Accept": "application/json",
+        'Content-Type': 'application/json',
+        "Authorization": 'Basic $token',
+      },
+      body: json.encode(body),
+      // body: {
+      //   "name": name,
+      //   "phone": phone,
+      //   "location": location,
+      //   "orderDetail": json.encode(orderDetail),
+      //   "totalPrice": totalPrice.toString(),
+      //   "eID": eID,
+      //   "discount": '0',
+      // },
+    );
+    //var res = response.body;
+    Get.back(result: 'true');
+    var res = jsonDecode(response.body);
+    print('$res');
+    //print('hello  +$res');
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
     }
   }
 }

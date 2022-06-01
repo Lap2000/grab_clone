@@ -8,7 +8,7 @@ import 'package:grab_clone/views/widgets/custom_textformfield.dart';
 import '../../../controllers/auth_controller/register_controller.dart';
 
 class Register extends GetView<RegisterController> {
-  Register({Key? key}) : super(key: key);
+  const Register({Key? key}) : super(key: key);
 
   //RegisterController controller = Get.find();
   @override

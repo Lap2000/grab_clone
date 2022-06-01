@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/bindings/cart_enterprise_binding.dart';
+import 'package:grab_clone/bindings/order_binding.dart';
 import 'package:grab_clone/views/screens/dashboard/account/security_page/security_page.dart';
 import 'package:grab_clone/views/screens/dashboard/cart/cart_enterprise_page.dart';
 
 import '../../../../controllers/user_acount_controller/account_controller.dart';
 import '../../../../routes/route.dart';
 import '../../../widgets/gesturedetector_accoutsettings.dart';
+import '../order/order_screen.dart';
 
 class AccountPage extends GetView<AccountController> {
   @override
@@ -63,6 +65,17 @@ class AccountPage extends GetView<AccountController> {
                     Future.delayed(const Duration(milliseconds: 150), () {
                       Get.to(() => CartEnterprisePage(),
                           binding: CartEnterpriseBinding());
+                    });
+                  }),
+                  buildAccountOption(
+                      context,
+                      "Đơn hàng",
+                      const Icon(
+                        Icons.book_online,
+                        color: Colors.grey,
+                      ), () {
+                    Future.delayed(const Duration(milliseconds: 150), () {
+                      Get.to(() => OrderPage(), binding: OrderBinding());
                     });
                   }),
                   const SizedBox(height: 40),

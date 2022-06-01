@@ -41,13 +41,32 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: InkWell(
-                      onTap: () {
-                        Get.to(
+                      onTap: () async {
+                        final result = await Get.to(
                           () => CartPage(
                             eID: currentItem.eID,
+                            eName: currentItem.eName,
                           ),
                           binding: CartBinding(),
                         );
+                        if (result == 'true') {
+                          Get.back();
+                          Get.snackbar(
+                            "",
+                            "",
+                            titleText: const Text(
+                              'Giỏ hàng',
+                              style:
+                                  TextStyle(color: Colors.green, fontSize: 25),
+                            ),
+                            messageText: const Text(
+                              'Đặt hàng thành công! '
+                              'Vào danh sách đơn hàng để xem chi tiết!',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                          );
+                        }
                       },
                       child: Container(
                         height: 100,

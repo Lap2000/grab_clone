@@ -12,22 +12,26 @@ import '../../database/services/account_services.dart';
 class CartController extends GetxController {
   RxInt count = 0.obs;
   RxBool isLoading = false.obs;
+  RxBool isOrder = false.obs;
   final userLat = ''.obs;
   final userLng = ''.obs;
-  late TextEditingController userNameController;
+  late TextEditingController locationController;
   RxString name = ''.obs;
   RxString phoneNumber = ''.obs;
   RxInt totalCart = 0.obs;
   RxString amountCart = ''.obs;
   RxString eID = ''.obs;
+  RxString eName = ''.obs;
+  RxString tokenUser = ''.obs;
   //late CartList cartModelList = CartList();
   //List<CartModel> cartListModel = [];
   //late Rx<CartList> cartList = Rx<CartList>(cartListInModel);
   RxList<CartModel> cartList = RxList<CartModel>();
+  final locationFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
-    userNameController = TextEditingController();
+    locationController = TextEditingController();
     doGetUserInfo();
     getLocation();
     super.onInit();
@@ -41,7 +45,7 @@ class CartController extends GetxController {
 
   @override
   void dispose() {
-    userNameController.dispose();
+    locationController.dispose();
     super.dispose();
   }
 
@@ -49,8 +53,18 @@ class CartController extends GetxController {
     count++;
   }
 
+  String? validateNull(String value) {
+    if (value == '') {
+      return "Điền địa chỉ chính xác để giao hàng !";
+    } else {
+      return null;
+    }
+  }
+
   Future<void> getLocation() async {
-    final storage = new FlutterSecureStorage();
+    final storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'token');
+    tokenUser.value = token!;
     userLat.value = (await storage.read(key: 'User_lat'))!;
     userLng.value = (await storage.read(key: 'User_lng'))!;
     print(userLat.value + " : " + userLng.value);
@@ -78,7 +92,9 @@ class CartController extends GetxController {
       }
     }
     Cartservices.EditProductInCart(
-        pID: cartModel.pID, pAmount: cartModel.pAmount!);
+        pID: cartModel.pID,
+        pAmount: cartModel.pAmount!,
+        token: tokenUser.value);
   }
 
   subCountIteminCart(CartModel cartModel) async {
@@ -88,11 +104,11 @@ class CartController extends GetxController {
           Get.snackbar(
             "",
             "",
-            titleText: Text(
+            titleText: const Text(
               'Giỏ hàng',
               style: TextStyle(color: Colors.yellow, fontSize: 25),
             ),
-            messageText: Text(
+            messageText: const Text(
               'Số lượng đã tối thiểu không thể giảm nữa!',
               style: TextStyle(color: Colors.black, fontSize: 15),
             ),
@@ -108,7 +124,9 @@ class CartController extends GetxController {
           totalCart.value = totalCart.value -
               int.parse(cartList[i].pPrice!.toStringAsFixed(0));
           Cartservices.EditProductInCart(
-              pID: cartModel.pID, pAmount: cartModel.pAmount!);
+              pID: cartModel.pID,
+              pAmount: cartModel.pAmount!,
+              token: tokenUser.value);
           break;
         }
       }
@@ -156,6 +174,36 @@ class CartController extends GetxController {
       } else {}
     } finally {
       isLoading(false);
+    }
+  }
+
+  placeOrder({required BuildContext context}) async {
+    bool isValidate = locationFormKey.currentState!.validate();
+    if (isValidate) {
+      isOrder(true);
+      // List jsonDataList = cartList
+      //     .map((cartOrder) => cartOrder.toJson().values.toList())
+      //     .toList();
+      List jsonDataList =
+          cartList.value.map((cartOrder) => cartOrder.toMap()).toList();
+      print(jsonDataList);
+      //String jsonArray = jsonEncode(cartList);
+      //print(jsonArray);
+      //Array<dynamic> cart = cartList.value as Array<dynamic>;
+      var data = await Cartservices.placeOrder(
+          name: name.value,
+          phone: phoneNumber.value,
+          lat: userLat.value,
+          lng: userLng.value,
+          enterpriseName: eName.value,
+          location: locationController.text,
+          orderDetail: jsonDataList,
+          totalPrice: totalCart.value,
+          eID: eID.value,
+          context: context);
+      try {} finally {
+        isOrder(false);
+      }
     }
   }
 }

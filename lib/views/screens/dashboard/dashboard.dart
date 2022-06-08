@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/controllers/dashboard_controller.dart';
 import 'package:grab_clone/views/screens/dashboard/account/account_page.dart';
-import 'package:grab_clone/views/screens/dashboard/cart/cart_page.dart';
 import 'package:grab_clone/views/screens/dashboard/search/search_page.dart';
 
 import 'bottom_navigation.dart';
@@ -27,26 +26,26 @@ class DashBoardPage extends StatelessWidget {
           onItemSelected: controller.changeTabIndex,
           items: <BottomNavyBarItem>[
             BottomNavyBarItem(
-                icon: Icon(Icons.home_outlined),
-                title: Text(
+                icon: const Icon(Icons.home_outlined),
+                title: const Text(
                   'Trang chủ',
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 15, fontFamily: 'Comfortaa'),
                 ),
-                activeColor: Colors.deepOrange),
+                activeColor: Colors.deepOrangeAccent),
             BottomNavyBarItem(
-                icon: Icon(Icons.search),
-                title: Text(
+                icon: const Icon(Icons.search),
+                title: const Text(
                   'Tìm kiếm',
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 15, fontFamily: 'Comfortaa'),
                 ),
-                activeColor: Colors.deepOrange),
+                activeColor: Colors.deepOrangeAccent),
             BottomNavyBarItem(
-              icon: Icon(Icons.account_box),
-              title: Text(
+              icon: const Icon(Icons.account_box),
+              title: const Text(
                 'Tài khoản',
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(fontSize: 15, fontFamily: 'Comfortaa'),
               ),
-              activeColor: Colors.deepOrange,
+              activeColor: Colors.deepOrangeAccent,
             ),
           ],
         ),

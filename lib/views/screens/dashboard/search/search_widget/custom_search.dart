@@ -42,6 +42,7 @@ class CustomSearchBar extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   labelText: 'Search products',
+                  labelStyle: const TextStyle(fontFamily: 'Comfortaa'),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),

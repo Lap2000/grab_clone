@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/bindings/cart_enterprise_binding.dart';
 import 'package:grab_clone/bindings/order_binding.dart';
@@ -27,7 +28,10 @@ class AccountPage extends GetView<AccountController> {
                 children: [
                   const Text(
                     'TÀI KHOẢN',
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Comfortaa'),
                   ),
                   const SizedBox(height: 30),
                   Row(
@@ -37,9 +41,13 @@ class AccountPage extends GetView<AccountController> {
                         color: Colors.blue,
                       ),
                       SizedBox(width: 10),
-                      Text("Tùy chọn",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold))
+                      Text(
+                        "Tùy chọn",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Comfortaa'),
+                      ),
                     ],
                   ),
                   const Divider(height: 20, thickness: 1),
@@ -86,9 +94,13 @@ class AccountPage extends GetView<AccountController> {
                         color: Colors.blue,
                       ),
                       SizedBox(width: 10),
-                      Text("Tài khoản & Hỗ trợ",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold))
+                      Text(
+                        "Tài khoản & Hỗ trợ",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Comfortaa'),
+                      ),
                     ],
                   ),
                   const Divider(height: 20, thickness: 2),
@@ -124,8 +136,60 @@ class AccountPage extends GetView<AccountController> {
                         Icons.logout,
                         color: Colors.grey,
                       ), () {
-                    Future.delayed(const Duration(milliseconds: 150), () {
-                      //Get.toNamed(AppRoutes.informationPersional);
+                    Future.delayed(const Duration(milliseconds: 150), () async {
+                      Get.defaultDialog(
+                        middleTextStyle: const TextStyle(
+                            fontSize: 18, fontFamily: 'Comfortaa'),
+                        title: 'Thông báo',
+                        titleStyle: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 22,
+                            fontFamily: 'Comfortaa'),
+                        middleText: 'Bạn có chắc chắn muốn đăng xuất không ?',
+                        cancel: ElevatedButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.red),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: const BorderSide(color: Colors.red),
+                                ),
+                              ),
+                            ),
+                            child: const Text(
+                              'Hủy',
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'Comfortaa'),
+                            )),
+                        confirm: ElevatedButton(
+                            onPressed: () async {
+                              final storage = FlutterSecureStorage();
+                              await storage.delete(key: 'token');
+                              Get.back();
+                              Get.back();
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.green),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: const BorderSide(color: Colors.green),
+                                ),
+                              ),
+                            ),
+                            child: const Text(
+                              'Xác nhận',
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'Comfortaa'),
+                            )),
+                      );
                     });
                   }),
                 ],

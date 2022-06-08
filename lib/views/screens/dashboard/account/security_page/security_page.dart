@@ -9,17 +9,18 @@ class SecurityPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.orangeAccent,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.black87,
+          color: Colors.white,
           onPressed: () {
             Get.back();
           },
         ),
         title: const Text(
           'Bảo mật thông tin',
-          style: TextStyle(fontSize: 18, color: Colors.black87),
+          style: TextStyle(
+              fontSize: 18, color: Colors.white, fontFamily: 'Comfortaa'),
         ),
       ),
       body: Padding(
@@ -57,9 +58,7 @@ class SecurityPage extends StatelessWidget {
                       'Hãy giữ mật khẩu của bạn đủ độ khó để bảo vệ tài khoản của mình.'
                       'Hãy giữ mật khẩu của bạn đủ độ khó để bảo vệ tài khoản của mình.'
                       'Hãy giữ mật khẩu của bạn đủ độ khó để bảo vệ tài khoản của mình.',
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
+                      style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa')),
                 ),
               ),
               Container(
@@ -71,7 +70,10 @@ class SecurityPage extends StatelessWidget {
                   },
                   child: const Text(
                     'Đổi mật khẩu',
-                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.blue,
+                        fontFamily: 'Comfortaa'),
                   ),
                 ),
               ),
@@ -105,9 +107,7 @@ class SecurityPage extends StatelessWidget {
                       'Liên kết số điện thoại giúp bạn dễ dàng lấy lại mật khẩu.'
                       'Liên kết số điện thoại giúp bạn dễ dàng lấy lại mật khẩu.'
                       'Liên kết số điện thoại giúp bạn dễ dàng lấy lại mật khẩu.',
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
+                      style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa')),
                 ),
               ),
               Container(
@@ -116,7 +116,10 @@ class SecurityPage extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     'Đổi số điện thoại',
-                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.blue,
+                        fontFamily: 'Comfortaa'),
                   ),
                 ),
               ),

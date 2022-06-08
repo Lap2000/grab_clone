@@ -57,6 +57,7 @@ class ChangePasswordController extends GetxController {
 
         if (data == 'Đổi mật khẩu thành công!') {
           changePasswordFormKey.currentState!.save();
+          Get.back();
           Get.snackbar(
             "Change Password",
             "!",

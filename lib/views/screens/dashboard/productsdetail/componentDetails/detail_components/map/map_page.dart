@@ -40,20 +40,24 @@ class MapPage extends GetView<MapController> {
           child: Stack(
             children: [
               Obx(
-                () => GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: controller.kGooglePlex,
-                  myLocationEnabled: true,
-                  tiltGesturesEnabled: true,
-                  compassEnabled: true,
-                  scrollGesturesEnabled: true,
-                  zoomGesturesEnabled: true,
-                  markers: Set<Marker>.of(controller.markers.value),
-                  polylines: Set<Polyline>.of(controller.polylines.value),
-                  // onMapCreated: (GoogleMapController xcontroller) {
-                  //   controller.mapController.complete(xcontroller);
-                  // }
-                ),
+                () => controller.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: controller.kGooglePlex,
+                        myLocationEnabled: true,
+                        tiltGesturesEnabled: true,
+                        compassEnabled: true,
+                        scrollGesturesEnabled: true,
+                        zoomGesturesEnabled: true,
+                        markers: Set<Marker>.of(controller.markers.value),
+                        polylines: Set<Polyline>.of(controller.polylines.value),
+                        // onMapCreated: (GoogleMapController xcontroller) {
+                        //   controller.mapController.complete(xcontroller);
+                        // }
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15),
@@ -73,7 +77,11 @@ class MapPage extends GetView<MapController> {
                       child: Text(
                         productDistance.distance.toStringAsFixed(2) + ' Km',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: 'Comfortaa',
+                        ),
                       ),
                     ),
                   ],

@@ -107,10 +107,10 @@ class ListViewRecommendProduct extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF333333),
-                              ),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF333333),
+                                  fontFamily: 'Comfortaa'),
                             ),
                             const SizedBox(
                               height: 10,
@@ -138,9 +138,9 @@ class ListViewRecommendProduct extends StatelessWidget {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          color: Color(0xFF8A8989),
-                                          fontSize: 12,
-                                        ),
+                                            color: Color(0xFF8A8989),
+                                            fontSize: 12,
+                                            fontFamily: 'Comfortaa-bold'),
                                       ),
                                     ],
                                   ),

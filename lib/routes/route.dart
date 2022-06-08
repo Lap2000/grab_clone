@@ -6,6 +6,9 @@ import 'package:grab_clone/views/screens/auth/login.dart';
 import 'package:grab_clone/views/screens/auth/register.dart';
 import 'package:grab_clone/views/screens/dashboard/account/changeInfomationPersional/change_infomationPersional.dart';
 import 'package:grab_clone/views/screens/dashboard/dashboard.dart';
+import 'package:grab_clone/views/screens/splash_screen.dart';
+
+import '../bindings/splash_screen_binding.dart';
 
 class AppRoutes {
   static const login = Routes.login;
@@ -14,25 +17,37 @@ class AppRoutes {
   static const dashboard = Routes.dashboard;
   static const informationPersional = Routes.informationPersional;
   static const map = Routes.map;
+  static const splash = Routes.splash;
   // static const home = Routes.home;
   // static const search = Routes.search;
   // static const account = Routes.account;
 
   static final routes = [
-    GetPage(name: Routes.login, page: () => Login(), binding: LoginBinding()),
     GetPage(
-        name: Routes.register,
-        page: () => Register(),
-        binding: RegisterBinding()),
-
+      name: Routes.login,
+      page: () => Login(),
+      binding: LoginBinding(),
+    ),
     GetPage(
-        name: Routes.dashboard,
-        page: () => DashBoardPage(),
-        binding: DashBoardBindings()),
+      name: Routes.register,
+      page: () => Register(),
+      binding: RegisterBinding(),
+    ),
     GetPage(
-        name: Routes.informationPersional,
-        page: () => ChangeInfamationPersional(),
-        binding: DashBoardBindings()),
+      name: Routes.dashboard,
+      page: () => DashBoardPage(),
+      binding: DashBoardBindings(),
+    ),
+    GetPage(
+      name: Routes.informationPersional,
+      page: () => ChangeInfamationPersional(),
+      binding: DashBoardBindings(),
+    ),
+    GetPage(
+      name: Routes.splash,
+      page: () => SplashScreen(),
+      binding: SplashScreenBinding(),
+    ),
     //GetPage(name: Routes.map, page: () => MapPage(), binding: DashBoardBindings()),
     // GetPage(name: Routes.home, page: () => HomePage(), binding: DashBoardBindings()),
     // GetPage(name: Routes.search, page: () => SearchPage(), binding: DashBoardBindings()),
@@ -49,4 +64,5 @@ class Routes {
   static const dashboard = '/dashboard';
   static const informationPersional = '/info';
   static const map = '/map';
+  static const splash = '/splash';
 }

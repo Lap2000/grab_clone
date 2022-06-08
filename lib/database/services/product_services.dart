@@ -169,4 +169,104 @@ class ProductServices {
     }
     return [];
   }
+
+  static Future<List<ProductModel>> getEnterpriseProductList() async {
+    final url = Uri.parse(baseApi + 'product/getEnterpriseProductSort');
+    final storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'token');
+    var response = await client.get(url, headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+      "Authorization": 'Basic $token',
+    });
+    //var res = response.body;
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse =
+          jsonDecode(response.body)['data']['data']['products'];
+      if (jsonResponse.isEmpty) {
+        return [];
+      }
+      return jsonResponse.map((item) => ProductModel.fromMap(item)).toList();
+    }
+    return [];
+  }
+
+  static addEvaluate({required pID, required score, required comment}) async {
+    final url = Uri.parse(baseApi + 'evaluate/addEvaluate');
+    final storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'token');
+    print(value);
+    var response = await client.post(
+      url,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": 'Basic $value',
+      },
+      body: {
+        "pID": pID,
+        "score": score.toString(),
+        "comment": comment,
+      },
+    );
+    var res = response.body;
+    print(res);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
+    }
+  }
+
+  static getUserEvaluate({required pID}) async {
+    final url = Uri.parse(baseApi + 'evaluate/getUserEvaluate?pID=' + pID);
+    final storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'token');
+    print(value);
+    var response = await client.get(
+      url,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": 'Basic $value',
+      },
+    );
+    var res = response.body;
+    print(res);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
+    }
+  }
+
+  static editEvaluate({required pID, required score, required comment}) async {
+    final url = Uri.parse(baseApi + 'evaluate/editEvaluate');
+    final storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'token');
+    print(value);
+    var response = await client.post(
+      url,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": 'Basic $value',
+      },
+      body: {
+        "pID": pID,
+        "score": score.toString(),
+        "comment": comment,
+      },
+    );
+    var res = response.body;
+    print(res);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
+    }
+  }
 }

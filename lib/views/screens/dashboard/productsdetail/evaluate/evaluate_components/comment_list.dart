@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:grab_clone/database/models/comment/comment_model.dart';
@@ -24,8 +25,15 @@ class CommentProduct extends StatelessWidget {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               ScaffoldMessenger.of(context).showMaterialBanner(
                 MaterialBanner(
-                  content: Text(CommentList[index].comment),
-                  backgroundColor: Colors.lightGreenAccent,
+                  content: Text(
+                    '${CommentList[index].comment}',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontFamily: 'Comfortaa',
+                    ),
+                  ),
+                  backgroundColor: Colors.orangeAccent,
                   actions: [
                     TextButton(
                       child: const Text(
@@ -43,8 +51,48 @@ class CommentProduct extends StatelessWidget {
                 ),
               );
             },
-            leading: Text(CommentList[index].name),
+            leading: Text(
+              CommentList[index].name,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
             title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Icon(
+                //   Icons.star,
+                //   color: Colors.yellow[800],
+                //   size: 20,
+                // ),
+                // const SizedBox(width: 2),
+                // Text(
+                //   CommentList[index].score.toString(),
+                //   style: const TextStyle(
+                //     fontSize: 18,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                const SizedBox(width: 5),
+                Flexible(
+                  child: Container(
+                    child: Text(
+                      '${CommentList[index].comment}',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                      ),
+                      maxLines: 3,
+                    ),
+                  ),
+                ),
+                //Text(productEvaluate[index].comment),
+              ],
+            ),
+            subtitle: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.star,
@@ -59,27 +107,11 @@ class CommentProduct extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 5),
-                Flexible(
-                  child: Container(
-                    child: Text(
-                      CommentList[index].comment,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13.0,
-                      ),
-                    ),
-                  ),
-                ),
-                //Text(productEvaluate[index].comment),
               ],
             ),
           ),
         );
       },
-      //const SizedBox(height: 10),
-      //ProdAvaliableColors(colors: product.avaliableColors),
-      //ProdDetBottom(price: product.price,id: id,),
     );
   }
 }

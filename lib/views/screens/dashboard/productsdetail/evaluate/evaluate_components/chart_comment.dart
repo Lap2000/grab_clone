@@ -6,7 +6,10 @@ import '../../../../../../database/models/comment/total_comment.dart';
 
 class ChartComment extends StatelessWidget {
   final TotalComment totalComment;
-  const ChartComment({Key? key, required this.totalComment}) : super(key: key);
+  final pName;
+  const ChartComment(
+      {Key? key, required this.totalComment, required this.pName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +31,27 @@ class ChartComment extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                "Biểu đồ đánh giá sản phẩm ",
-                style: Theme.of(context).textTheme.bodyText2,
+                "Biểu đồ đánh giá sản phẩm $pName",
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                  fontFamily: 'Comfortaa',
+                ),
+                textAlign: TextAlign.center,
               ),
               Expanded(
-                  child: charts.BarChart(
-                series,
-                animate: true,
-              )),
+                child: charts.BarChart(
+                  series,
+                  animate: true,
+                ),
+              ),
               Text(
-                "Tổng số lượng đánh giá: ",
-                style: Theme.of(context).textTheme.subtitle1,
+                "Tổng số lượng đánh giá: ${totalComment.totalCount}",
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                  fontFamily: 'Comfortaa',
+                ),
               )
             ],
           ),

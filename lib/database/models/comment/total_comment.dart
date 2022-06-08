@@ -17,9 +17,9 @@ class TotalComment {
 
   //TotalComment(this.commentStarList);
 
-  double get totalCount {
-    return commentStarList.fold(0.0,
-        (double currentTotal, CommentStar nextCommentStar) {
+  int get totalCount {
+    return commentStarList.fold(0,
+        (int currentTotal, CommentStar nextCommentStar) {
       return currentTotal + nextCommentStar.count;
     });
   }

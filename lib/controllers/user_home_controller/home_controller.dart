@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
@@ -26,15 +27,36 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
+  void onReady() {
+    super.onReady();
+  }
+
   void Dispose() {
     super.dispose();
   }
 
-  Future<void> getLocation() async {
+  void getLocation() async {
     final storage = new FlutterSecureStorage();
     userLat.value = (await storage.read(key: 'User_lat'))!;
     userLng.value = (await storage.read(key: 'User_lng'))!;
     print(userLat.value + " : " + userLng.value);
+  }
+
+  void getAddress() async {
+    double? lat = 0.0;
+    double? lng = 0.0;
+    try {
+      lat = double.tryParse(userLat.value);
+      lng = double.tryParse(userLng.value);
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat!, lng!);
+      //print(placemarks);
+      Placemark place = placemarks[0];
+      var Address =
+          '${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+      print(Address);
+    } catch (e) {
+      print(e);
+    }
   }
 
   onGetProduct() async {
@@ -61,6 +83,7 @@ class HomeController extends GetxController {
       }
     } finally {
       isLoading(false);
+      getAddress();
     }
   }
 

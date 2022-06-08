@@ -25,9 +25,7 @@ class ChangePasswordPage extends GetView<ChangePasswordController> {
           decoration: InputDecoration(
             labelText: labelText,
             hintText: hintText,
-            hintStyle: TextStyle(
-              fontSize: 16,
-            ),
+            hintStyle: TextStyle(fontSize: 16, fontFamily: 'Comfortaa'),
             // Here is key idea
             suffixIcon: IconButton(
               icon: Icon(
@@ -44,17 +42,17 @@ class ChangePasswordPage extends GetView<ChangePasswordController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.orangeAccent,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.black87,
+          color: Colors.white,
           onPressed: () {
             Get.back();
           },
         ),
         title: const Text(
           'Đổi mật khẩu',
-          style: TextStyle(fontSize: 18, color: Colors.black87),
+          style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
         ),
       ),
       body: Padding(
@@ -74,7 +72,8 @@ class ChangePasswordPage extends GetView<ChangePasswordController> {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: Colors.red),
+                        color: Colors.red,
+                        fontFamily: 'Comfortaa'),
                   ),
                 ),
                 SizedBox(

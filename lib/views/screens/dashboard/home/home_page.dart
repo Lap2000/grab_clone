@@ -23,10 +23,9 @@ class HomePage extends GetView<HomeController> {
                 child: Text(
                   "Món ngon gần bạn",
                   style: TextStyle(
-                    color: Color(0xFF333333),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
-                  ),
+                      color: Color(0xFF333333),
+                      fontSize: 22,
+                      fontFamily: 'Comfortaa-bold'),
                 ),
               ),
             ),
@@ -45,10 +44,9 @@ class HomePage extends GetView<HomeController> {
                 child: Text(
                   "Đồ ăn",
                   style: TextStyle(
-                    color: Color(0xFF333333),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
-                  ),
+                      color: Color(0xFF333333),
+                      fontSize: 22,
+                      fontFamily: 'Comfortaa-bold'),
                 ),
               ),
             ),
@@ -67,10 +65,9 @@ class HomePage extends GetView<HomeController> {
                 child: Text(
                   "Nước uống",
                   style: TextStyle(
-                    color: Color(0xFF333333),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
-                  ),
+                      color: Color(0xFF333333),
+                      fontSize: 22,
+                      fontFamily: 'Comfortaa-bold'),
                 ),
               ),
             ),

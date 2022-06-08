@@ -5,7 +5,7 @@ import 'package:grab_clone/routes/route.dart';
 void main() {
   runApp(GetMaterialApp(
     title: 'Grab Clone',
-    initialRoute: AppRoutes.login,
+    initialRoute: AppRoutes.splash,
     getPages: AppRoutes.routes,
     debugShowCheckedModeBanner: false,
     // onGenerateRoute: (settings) {

@@ -105,10 +105,10 @@ class FoodAndWaterProduct extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                  color: Color(0xFF333333),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                    color: Color(0xFF333333),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Comfortaa'),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -129,9 +129,9 @@ class FoodAndWaterProduct extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                  color: Color(0xFF8A8989),
-                                  fontSize: 12,
-                                ),
+                                    color: Color(0xFF8A8989),
+                                    fontSize: 14,
+                                    fontFamily: 'Comfortaa-bold'),
                               ),
                               const SizedBox(
                                 height: 10,

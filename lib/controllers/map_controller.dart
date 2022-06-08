@@ -11,6 +11,7 @@ import '../database/services/product_services.dart';
 class MapController extends GetxController {
   //final Rxn<ProductDistance> productDistance = Rxn<ProductDistance>();
   final RxDouble dis = RxDouble(20.0);
+  final RxBool isLoading = true.obs;
   final RxString idEnterprise = ''.obs;
 
   final RxDouble userLat = RxDouble(0.0);
@@ -38,8 +39,9 @@ class MapController extends GetxController {
   @override
   void onReady() {
     //print('hế lô' +idEnterprise.value);
-    getUsersLocation();
-    getEnterprisesLocation();
+    //getUsersLocation();
+    //getEnterprisesLocation();
+    onGetMap();
     super.onReady();
   }
 
@@ -54,11 +56,20 @@ class MapController extends GetxController {
     super.onClose();
   }
 
+  onGetMap() {
+    isLoading(true);
+    try {
+      getUsersLocation();
+      getEnterprisesLocation();
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> getUsersLocation() async {
     final storage = new FlutterSecureStorage();
     String lat = (await storage.read(key: 'User_lat'))!;
     String lng = (await storage.read(key: 'User_lng'))!;
-
     userLat.value = double.tryParse(lat)!;
     userLng.value = double.tryParse(lng)!;
     addMarker(

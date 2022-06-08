@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:grab_clone/bindings/enterprise_role_binding.dart';
 import 'package:grab_clone/database/services/auth_services.dart';
+import 'package:grab_clone/views/screens/dashboard/enterprise_role/enterprise_info_screen.dart';
 
 import '../../routes/route.dart';
 
@@ -72,34 +74,52 @@ class LoginController extends GetxController {
         if (data != null) {
           //await storage.write(key: "name", value: data);
           loginFormKey.currentState!.save();
-
-          // final storage = new FlutterSecureStorage();
-          // await storage.write(key: 'token', value: data);
+          final storage = new FlutterSecureStorage();
+          await storage.write(key: 'token', value: data['token']);
           // String? value = await storage.read(key: 'token');
           // print('Đây là token : $value');
-
-          Get.toNamed(AppRoutes.dashboard);
-          Get.snackbar(
-            "Login",
-            "Đăng nhập thành công !",
-            titleText: Text(
-              'Login',
-              style: TextStyle(color: Colors.green, fontSize: 25),
-            ),
-            messageText: Text(
-              'Đăng nhập thành công!',
-              style: TextStyle(color: Colors.black, fontSize: 15),
-            ),
-          );
+          if (data['role'] == 0) {
+            Get.toNamed(AppRoutes.dashboard);
+            Get.snackbar(
+              "Login",
+              "Đăng nhập thành công !",
+              titleText: const Text(
+                'Login',
+                style: TextStyle(color: Colors.green, fontSize: 25),
+              ),
+              messageText: const Text(
+                'Đăng nhập thành công!',
+                style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            );
+          }
+          if (data['role'] == 2) {
+            Get.to(
+              () => EnterpriseInfoScreen(),
+              binding: EnterpriseInfoBinding(),
+            );
+            Get.snackbar(
+              "Login",
+              "Đăng nhập thành công !",
+              titleText: Text(
+                'Login',
+                style: TextStyle(color: Colors.green, fontSize: 25),
+              ),
+              messageText: Text(
+                'Đăng nhập thành công!',
+                style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            );
+          }
         } else {
           Get.snackbar(
             "Login",
             "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",
-            titleText: Text(
+            titleText: const Text(
               'Login',
               style: TextStyle(color: Colors.red, fontSize: 25),
             ),
-            messageText: Text(
+            messageText: const Text(
               'Có lỗi xảy ra ! Hãy kiểm tra lại thông tin!',
               style: TextStyle(color: Colors.black, fontSize: 15),
             ),

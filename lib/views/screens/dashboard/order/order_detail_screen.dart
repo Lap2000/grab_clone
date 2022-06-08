@@ -2,12 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:grab_clone/bindings/evaluate_binding.dart';
 import 'package:grab_clone/database/models/order_user/order_model.dart';
+import 'package:grab_clone/database/models/product_model.dart';
+import 'package:grab_clone/views/screens/dashboard/productsdetail/evaluate/evaluates_page.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../database/services/order_services.dart';
 
 class OrderDetailPage extends StatelessWidget {
   final OrderModel orderItem;
-  const OrderDetailPage({Key? key, required this.orderItem}) : super(key: key);
+  late bool isConfirm;
+  late bool isEvaluate;
+  OrderDetailPage(
+      {Key? key,
+      required this.orderItem,
+      this.isConfirm = false,
+      this.isEvaluate = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +27,10 @@ class OrderDetailPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.orangeAccent,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            color: Colors.black87,
+            color: Colors.white,
             onPressed: () {
               Get.back();
             },
@@ -26,7 +38,7 @@ class OrderDetailPage extends StatelessWidget {
           title: const Text(
             'Chi tiết đơn hàng',
             style: TextStyle(
-                fontSize: 18, color: Colors.black87, fontFamily: 'Comfortaa'),
+                fontSize: 18, color: Colors.white, fontFamily: 'Comfortaa'),
           ),
         ),
         body: Padding(
@@ -376,8 +388,41 @@ class OrderDetailPage extends StatelessWidget {
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
                                         ],
                                       ),
+                                      isEvaluate
+                                          ? Positioned(
+                                              top: -15,
+                                              right: -15,
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  Get.to(
+                                                    () => EvaluatePage(
+                                                        productModel: ProductModel(
+                                                            name: currentItem
+                                                                .pName,
+                                                            description: '',
+                                                            imagesProduct: [],
+                                                            Types: [],
+                                                            star: 0.0,
+                                                            id: currentItem.pID,
+                                                            E_id: '',
+                                                            price: currentItem
+                                                                .pPrice),
+                                                        isEvalute: true),
+                                                    binding: EvaluateBinding(),
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.pending_actions,
+                                                  color: Colors.green,
+                                                ),
+                                              ),
+                                            )
+                                          : const Center(),
                                     ],
                                   ),
                                 ],
@@ -397,6 +442,72 @@ class OrderDetailPage extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: isConfirm
+            ? FloatingActionButton(
+                onPressed: () {
+                  Get.defaultDialog(
+                    middleTextStyle:
+                        const TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                    title: 'Thông báo',
+                    titleStyle: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 22,
+                        fontFamily: 'Comfortaa'),
+                    middleText:
+                        'Bạn có chắc chắn muốn xác nhận đơn hàng này không ?',
+                    cancel: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.red),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Hủy',
+                        style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                      ),
+                    ),
+                    confirm: ElevatedButton(
+                      onPressed: () async {
+                        Get.back();
+                        Get.back(result: 'true');
+                        OrderServices.confirmOrder(id: orderItem.id);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(color: Colors.green),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Xác nhận',
+                        style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                      ),
+                    ),
+                  );
+                },
+                elevation: 5,
+                backgroundColor: Colors.orangeAccent,
+                splashColor: Colors.green,
+                child: const Text(
+                  'Xác nhận',
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Center(),
       ),
     );
   }

@@ -36,7 +36,7 @@ buildAccountOption(
               Expanded(
                   child: Text(
                 title,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20, fontFamily: 'Comfortaa'),
               )),
               const Icon(Icons.arrow_forward_ios),
             ],

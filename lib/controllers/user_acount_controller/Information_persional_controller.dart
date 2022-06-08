@@ -66,13 +66,11 @@ class InformationController extends GetxController {
   String? validatePhone(String value) {
     if (value == '') {
       return "Empty !";
-    } else if(!value.isNum) {
+    } else if (!value.isNum) {
       return "Your phone number is in the wrong format !";
-    }
-    else if(value.length <=9) {
+    } else if (value.length <= 9) {
       return "Your phone number is too short !";
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -126,11 +124,20 @@ class InformationController extends GetxController {
         Get.snackbar(
           "UserInfo",
           "Success Loading !",
-          titleText: Text('UserInfo',style: TextStyle(color: Colors.green,fontSize: 25),),
-          messageText: Text('Success Loading !',style: TextStyle(color: Colors.black,fontSize: 15),),
+          titleText: Text(
+            'UserInfo',
+            style: TextStyle(color: Colors.green, fontSize: 25),
+          ),
+          messageText: Text(
+            'Success Loading !',
+            style: TextStyle(color: Colors.black, fontSize: 15),
+          ),
         );
       } else {
-        Get.snackbar("UserInfo", "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",);
+        Get.snackbar(
+          "UserInfo",
+          "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",
+        );
       }
     } finally {
       update();
@@ -141,7 +148,7 @@ class InformationController extends GetxController {
     final storage = new FlutterSecureStorage();
     String? value = await storage.read(key: 'token');
     bool isValidate = infoFormKey.currentState!.validate();
-    if(isValidate) {
+    if (isValidate) {
       isLoading(true);
       try {
         var data = await Accountservices.changeInfo(
@@ -156,12 +163,20 @@ class InformationController extends GetxController {
           //await storage.write(key: "name", value: data);
           infoFormKey.currentState!.save();
           Get.back();
-          Get.snackbar("ChangeInfo", "Đổi thông tin thành công !",colorText: Colors.green);
+          Get.snackbar("ChangeInfo", "Đổi thông tin thành công !",
+              colorText: Colors.black);
         } else {
           Get.snackbar(
-              "ChangeInfo", "Có lỗi xảy ra ! Kiểm tra lại thông tin.()",
-            titleText: Text('UserInfo',style: TextStyle(color: Colors.red,fontSize: 25),),
-            messageText: Text('Có lỗi xảy ra ! Kiểm tra lại thông tin.()',style: TextStyle(color: Colors.black,fontSize: 15),),
+            "ChangeInfo",
+            "Có lỗi xảy ra ! Kiểm tra lại thông tin.()",
+            titleText: const Text(
+              'UserInfo',
+              style: TextStyle(color: Colors.red, fontSize: 25),
+            ),
+            messageText: const Text(
+              'Có lỗi xảy ra ! Kiểm tra lại thông tin.()',
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
           );
         }
       } finally {

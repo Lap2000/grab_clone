@@ -22,17 +22,18 @@ class CartPage extends GetView<CartController> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.orangeAccent,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            color: Colors.black87,
+            color: Colors.white,
             onPressed: () {
               Get.back();
             },
           ),
           title: const Text(
             'Giỏ hàng',
-            style: TextStyle(fontSize: 18, color: Colors.black87),
+            style: TextStyle(
+                fontSize: 18, color: Colors.white, fontFamily: 'Comfortaa'),
           ),
         ),
         body: Stack(
@@ -219,7 +220,52 @@ class CartPage extends GetView<CartController> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            controller.placeOrder(context: context);
+            Get.defaultDialog(
+              middleTextStyle:
+                  const TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+              title: 'Thông báo',
+              titleStyle: const TextStyle(
+                  color: Colors.red, fontSize: 22, fontFamily: 'Comfortaa'),
+              middleText: 'Bạn có chắc chắn muốn đặt đơn hàng này không ?',
+              cancel: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Hủy',
+                    style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                  )),
+              confirm: ElevatedButton(
+                onPressed: () async {
+                  Get.back(result: 'true');
+                  controller.placeOrder(context: context);
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: const BorderSide(color: Colors.green),
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  'Xác nhận',
+                  style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                ),
+              ),
+            );
           },
           elevation: 5,
           backgroundColor: Colors.orangeAccent,

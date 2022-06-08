@@ -15,17 +15,18 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.orangeAccent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            color: Colors.black87,
+            color: Colors.white,
             onPressed: () {
               Get.back();
             },
           ),
           title: const Text(
             'Danh sách Giỏ hàng',
-            style: TextStyle(fontSize: 18, color: Colors.black87),
+            style: TextStyle(
+                fontSize: 18, color: Colors.white, fontFamily: 'Comfortaa'),
           ),
         ),
         body: Padding(

@@ -17,17 +17,18 @@ class OrderPage extends GetView<OrderController> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.orangeAccent,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            color: Colors.black87,
+            color: Colors.white,
             onPressed: () {
               Get.back();
             },
           ),
           title: const Text(
             'Đơn hàng',
-            style: TextStyle(fontSize: 18, color: Colors.black87),
+            style: TextStyle(
+                fontSize: 18, color: Colors.white, fontFamily: 'Comfortaa'),
           ),
         ),
         body: Column(
@@ -73,13 +74,19 @@ class OrderPage extends GetView<OrderController> {
                   Tab(
                     child: Text(
                       'Đơn hàng đang chờ',
-                      style: TextStyle(color: Colors.orange, fontSize: 18),
+                      style: TextStyle(
+                          color: Colors.orange,
+                          fontSize: 16,
+                          fontFamily: 'Comfortaa'),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'Đơn hàng đã xác nhận',
-                      style: TextStyle(color: Colors.green, fontSize: 18),
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 16,
+                          fontFamily: 'Comfortaa'),
                     ),
                   ),
                 ],
@@ -157,37 +164,47 @@ class OrderPage extends GetView<OrderController> {
                             itemBuilder: (BuildContext context, int index) {
                               OrderModel currentItem =
                                   controller.orderConfirmList.value[index];
-                              return ListTile(
-                                leading: Container(
-                                  width: 48,
-                                  height: 48,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4.0),
-                                  alignment: Alignment.center,
-                                  child: const CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      'https://nhathauxaydung24h.com/wp-content/uploads/2021/12/avatar-an-uong.jpg',
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => OrderDetailPage(
+                                      orderItem: currentItem,
+                                      isEvaluate: true,
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Container(
+                                    width: 48,
+                                    height: 48,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
+                                    alignment: Alignment.center,
+                                    child: const CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        'https://nhathauxaydung24h.com/wp-content/uploads/2021/12/avatar-an-uong.jpg',
+                                      ),
                                     ),
                                   ),
-                                ),
-                                title: Text(
-                                  currentItem.enterpriseName,
-                                  style: const TextStyle(
-                                      fontSize: 20, fontFamily: 'Comfortaa'),
-                                ),
-                                subtitle: Text(
-                                  DateFormat.yMMMd()
-                                      .add_jm()
-                                      .format(currentItem.orderDate),
-                                  style: const TextStyle(
-                                      fontSize: 18, fontFamily: 'Comfortaa'),
-                                ),
-                                trailing: Text(
-                                  '${currentItem.totalPrice}đ',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'Comfortaa',
-                                      fontWeight: FontWeight.bold),
+                                  title: Text(
+                                    currentItem.enterpriseName,
+                                    style: const TextStyle(
+                                        fontSize: 20, fontFamily: 'Comfortaa'),
+                                  ),
+                                  subtitle: Text(
+                                    DateFormat.yMMMd()
+                                        .add_jm()
+                                        .format(currentItem.orderDate),
+                                    style: const TextStyle(
+                                        fontSize: 18, fontFamily: 'Comfortaa'),
+                                  ),
+                                  trailing: Text(
+                                    '${currentItem.totalPrice}đ',
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: 'Comfortaa',
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               );
                             },

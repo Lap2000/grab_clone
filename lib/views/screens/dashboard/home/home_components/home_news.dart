@@ -18,9 +18,9 @@ class News extends GetView<NewsController> {
     return SliverToBoxAdapter(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        height: 200,
+        height: 250,
         width: MediaQuery.of(context).size.width - 40,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -44,7 +44,7 @@ class News extends GetView<NewsController> {
                   autoPlay: true,
                   enlargeCenterPage: true,
                   aspectRatio: 4.0,
-                  height: 150,
+                  height: 200,
                   onPageChanged: (index, reason) {
                     controller.current.value = index;
                   }),
@@ -59,17 +59,17 @@ class News extends GetView<NewsController> {
                     child: Container(
                       width: 8.0,
                       height: 8.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 4.0),
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: (Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black)
-                              .withOpacity(controller.current.value == entry.key
-                                  ? 0.9
-                                  : 0.4)),
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.black)
+                            .withOpacity(controller.current.value == entry.key
+                                ? 0.9
+                                : 0.4),
+                      ),
                     ),
                   ));
             }).toList(),
@@ -83,7 +83,7 @@ class News extends GetView<NewsController> {
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
           child: Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 child: Stack(
@@ -94,7 +94,7 @@ final List<Widget> imageSliders = imgList
                       left: 0.0,
                       right: 0.0,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(200, 0, 0, 0),
@@ -104,7 +104,7 @@ final List<Widget> imageSliders = imgList
                             end: Alignment.topCenter,
                           ),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
                       ),
                     ),

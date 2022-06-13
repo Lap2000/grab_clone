@@ -17,7 +17,7 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
           centerTitle: true,
           backgroundColor: Colors.orangeAccent,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             color: Colors.white,
             onPressed: () {
               Get.back();
@@ -30,7 +30,7 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Center(
             child: Obx(
               () => ListView.separated(
@@ -51,7 +51,7 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
                           binding: CartBinding(),
                         );
                         if (result == 'true') {
-                          Get.back();
+                          controller.getCart();
                           Get.snackbar(
                             "",
                             "",
@@ -67,6 +67,8 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
                                   TextStyle(color: Colors.black, fontSize: 15),
                             ),
                           );
+                        } else if (result == true) {
+                          controller.getCart();
                         }
                       },
                       child: Container(

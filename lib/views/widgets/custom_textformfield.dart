@@ -41,8 +41,10 @@ class CustomTextFormField extends StatelessWidget {
             onSaved: onSave,
             validator: validator,
             decoration: InputDecoration(
+              errorStyle:
+                  const TextStyle(fontFamily: 'Comfortaa-bold', fontSize: 14),
               hintText: hint,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.grey,
               ),
               fillColor: Colors.white,

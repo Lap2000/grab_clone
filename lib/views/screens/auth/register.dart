@@ -33,7 +33,7 @@ class Register extends GetView<RegisterController> {
                       ),
                     ),
                     Container(
-                        child: Icon(
+                        child: const Icon(
                       Icons.key,
                       size: 40,
                     ))
@@ -56,7 +56,7 @@ class Register extends GetView<RegisterController> {
                       controller.name = value!;
                     },
                     validator: (value) {
-                      controller.name = value!;
+                      return controller.validateNull(value!);
                     }),
                 SizedBox(height: 15),
                 CustomTextFormField(
@@ -67,7 +67,7 @@ class Register extends GetView<RegisterController> {
                       controller.userName = value!;
                     },
                     validator: (value) {
-                      controller.userName = value!;
+                      return controller.validateNull(value!);
                     }),
                 SizedBox(height: 15),
                 CustomTextFormField(
@@ -102,7 +102,7 @@ class Register extends GetView<RegisterController> {
                       controller.confirmPassword = value!;
                     },
                     validator: (value) {
-                      return controller.validatePassword(value!);
+                      return controller.validateConfirmPassword(value!);
                     }),
                 Obx(
                   () => controller.isLoading.value == true
@@ -110,14 +110,23 @@ class Register extends GetView<RegisterController> {
                       : const Text(""),
                 ),
                 FlatButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: CustomText(
-                      text: 'Already have an account? Let Sign in!',
-                      alignment: Alignment.topRight,
-                    )),
-                SizedBox(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: const Text(
+                      'Already have an account? Let Sign in!',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          height: 1,
+                          fontSize: 15,
+                          fontFamily: 'Comfortaa-bold'),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                const SizedBox(
                   height: 30,
                 ),
                 CustomButton(

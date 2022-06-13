@@ -30,6 +30,14 @@ class LoginController extends GetxController {
     super.dispose();
   }
 
+  String? validateNull(String value) {
+    if (value == '') {
+      return "Không để trống !";
+    } else {
+      return null;
+    }
+  }
+
   //Request Get Device's Location
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -71,14 +79,14 @@ class LoginController extends GetxController {
         var data = await AuthServices.login(
             userName: userName_controller.text,
             userPwd: userPwd_controller.text);
-        if (data != null) {
+        if (data['data'] != null) {
           //await storage.write(key: "name", value: data);
           loginFormKey.currentState!.save();
-          final storage = new FlutterSecureStorage();
-          await storage.write(key: 'token', value: data['token']);
+          const storage = FlutterSecureStorage();
+          await storage.write(key: 'token', value: data['data']['token']);
           // String? value = await storage.read(key: 'token');
           // print('Đây là token : $value');
-          if (data['role'] == 0) {
+          if (data['data']['role'] == 0) {
             Get.toNamed(AppRoutes.dashboard);
             Get.snackbar(
               "Login",
@@ -92,8 +100,7 @@ class LoginController extends GetxController {
                 style: TextStyle(color: Colors.black, fontSize: 15),
               ),
             );
-          }
-          if (data['role'] == 2) {
+          } else if (data['data']['role'] == 2) {
             Get.to(
               () => EnterpriseInfoScreen(),
               binding: EnterpriseInfoBinding(),
@@ -101,13 +108,26 @@ class LoginController extends GetxController {
             Get.snackbar(
               "Login",
               "Đăng nhập thành công !",
-              titleText: Text(
+              titleText: const Text(
                 'Login',
                 style: TextStyle(color: Colors.green, fontSize: 25),
               ),
-              messageText: Text(
+              messageText: const Text(
                 'Đăng nhập thành công!',
                 style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            );
+          } else {
+            Get.snackbar(
+              "Login",
+              "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",
+              titleText: const Text(
+                'Login',
+                style: TextStyle(color: Colors.red, fontSize: 25),
+              ),
+              messageText: Text(
+                data['message'],
+                style: const TextStyle(color: Colors.black, fontSize: 15),
               ),
             );
           }
@@ -120,7 +140,7 @@ class LoginController extends GetxController {
               style: TextStyle(color: Colors.red, fontSize: 25),
             ),
             messageText: const Text(
-              'Có lỗi xảy ra ! Hãy kiểm tra lại thông tin!',
+              'Có lỗi xảy ra ! Hãy kiểm tra lại thông tin đăng nhập',
               style: TextStyle(color: Colors.black, fontSize: 15),
             ),
           );

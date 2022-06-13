@@ -109,9 +109,12 @@ class InformationController extends GetxController {
         var res = jsonDecode(data);
         //userName = res['userName'];
         name.value = res['data']['name'];
+        controllerName.text = name.value;
         userName.value = res['data']['userName'];
         email.value = res['data']['email'];
+        controllerEmail.text = email.value;
         phone.value = res['data']['phone'];
+        controllerPhone.text = phone.value;
         dateOfBirth.value = DateTime.tryParse(res['data']['dateofBirth'])!;
         gender = res['data']['gender'];
         if (gender == 0) {
@@ -163,8 +166,18 @@ class InformationController extends GetxController {
           //await storage.write(key: "name", value: data);
           infoFormKey.currentState!.save();
           Get.back();
-          Get.snackbar("ChangeInfo", "Đổi thông tin thành công !",
-              colorText: Colors.black);
+          Get.snackbar(
+            "ChangeInfo",
+            "Có lỗi xảy ra ! Kiểm tra lại thông tin.()",
+            titleText: const Text(
+              'UserInfo',
+              style: TextStyle(color: Colors.green, fontSize: 25),
+            ),
+            messageText: const Text(
+              'Đổi thông tin thành công!',
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          );
         } else {
           Get.snackbar(
             "ChangeInfo",

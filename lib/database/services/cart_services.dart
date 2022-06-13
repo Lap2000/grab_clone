@@ -94,6 +94,7 @@ class Cartservices {
     final url = Uri.parse(baseApi + 'cart/addProductIntoCart');
     final storage = new FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
+    // print('Lap - $token');
     var response = await client.post(
       url,
       headers: {
@@ -115,7 +116,7 @@ class Cartservices {
       return stringOject;
     } else {
       print('rest api fail! + ' + response.statusCode.toString());
-      //print(response.body);
+      print(response.body);
       return null;
     }
   }

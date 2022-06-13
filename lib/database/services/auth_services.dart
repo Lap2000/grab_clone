@@ -52,12 +52,75 @@ class AuthServices {
     var res = response.body;
     print(res);
     if (response.statusCode == 200) {
-      var stringOject = jsonDecode(res)['data'];
+      var stringOject = jsonDecode(res);
       return stringOject;
     } else {
-      print(response.statusCode);
-      print(response.body);
-      return null;
+      var stringOject1 = jsonDecode(res);
+      print(stringOject1['message']);
+      return stringOject1;
     }
+  }
+
+  static verifyEmail({required email, required otp}) async {
+    final url = Uri.parse(baseApi + 'user/confirmUnlock');
+    var response = await client.post(
+      url,
+      headers: {'Accept': 'application/json'},
+      body: {
+        "email": email,
+        "otp": otp,
+      },
+    );
+    var res = response.body;
+    return response;
+    // print(res);
+    // if (response.statusCode == 200) {
+    //   var stringOject = jsonDecode(res);
+    //   return stringOject;
+    // } else {
+    //   var stringOject1 = jsonDecode(res);
+    //   print(stringOject1['message']);
+    //   return stringOject1;
+    // }
+  }
+
+  static forgotPassword({required email}) async {
+    final url = Uri.parse(baseApi + 'user/forgotPassword?email=' + email);
+    var response = await client.get(
+      url,
+      headers: {'Accept': 'application/json'},
+    );
+    var res = response.body;
+    return response;
+    // print(res);
+    // if (response.statusCode == 200) {
+    //   var stringOject = jsonDecode(res);
+    //   return stringOject;
+    // } else {
+    //   var stringOject1 = jsonDecode(res);
+    //   print(stringOject1['message']);
+    //   return stringOject1;
+    // }
+  }
+
+  static resetPassword({
+    required email,
+    required password,
+    required confirmPassword,
+    required otp,
+  }) async {
+    final url = Uri.parse(baseApi + 'user/resetPassword');
+    var response = await client.post(
+      url,
+      headers: {'Accept': 'application/json'},
+      body: {
+        'email': email,
+        'password': password,
+        'confirmPassword': confirmPassword,
+        'otp': otp
+      },
+    );
+    var res = response.body;
+    return response;
   }
 }

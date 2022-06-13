@@ -16,11 +16,14 @@ class HomeController extends GetxController {
       RxList<ProductDistance>();
   final RxList<ProductDistance> waterproductDistantsList =
       RxList<ProductDistance>();
+  final RxList<ProductDistance> suggestedproductDistantsList =
+      RxList<ProductDistance>();
   final userLat = ''.obs;
   final userLng = ''.obs;
 
   void onInit() {
     getLocation();
+    onGetSuggestedProducts();
     onGetProduct();
     onGetProductByType('Thực phẩm', foodProductDistantsList);
     onGetProductByType('Đồ uống', waterproductDistantsList);
@@ -71,16 +74,31 @@ class HomeController extends GetxController {
         Get.snackbar(
           "Search",
           "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",
-          titleText: Text(
+          titleText: const Text(
             'Search',
             style: TextStyle(color: Colors.red, fontSize: 25),
           ),
-          messageText: Text(
+          messageText: const Text(
             'Không tìm thấy sản phẩm !',
             style: TextStyle(color: Colors.black, fontSize: 15),
           ),
         );
       }
+    } finally {
+      isLoading(false);
+      getAddress();
+    }
+  }
+
+  onGetSuggestedProducts() async {
+    suggestedproductDistantsList.value.clear();
+    isLoading(true);
+    try {
+      List<ProductModel> _futureOfList =
+          await ProductServices.getSuggestedProducts();
+      if (!_futureOfList.isEmpty) {
+        findSuggestedProductsLoop(_futureOfList, suggestedproductDistantsList);
+      } else {}
     } finally {
       isLoading(false);
       getAddress();
@@ -95,28 +113,15 @@ class HomeController extends GetxController {
           await ProductServices.getProductListByType(type: type);
       if (!_futureOfList.isEmpty) {
         findProductLoop(_futureOfList, productDstList);
-      } else {
-        Get.snackbar(
-          "Search",
-          "Có lỗi xảy ra ! Hãy kiểm tra lại thông tin",
-          titleText: Text(
-            'Search',
-            style: TextStyle(color: Colors.red, fontSize: 25),
-          ),
-          messageText: Text(
-            'Không tìm thấy sản phẩm !',
-            style: TextStyle(color: Colors.black, fontSize: 15),
-          ),
-        );
-      }
+      } else {}
     } finally {
       isLoading(false);
     }
   }
 
-  Future<double> getDistantItem(ProductModel ProductList) async {
+  Future<double> getDistantItem(ProductModel productList) async {
     dynamic enterprise =
-        await ProductServices.getEnterpriseOfProduct(Eid: ProductList.E_id);
+        await ProductServices.getEnterpriseOfProduct(Eid: productList.E_id);
     double distance = _coordinateDistance(double.parse(userLat.value),
         double.parse(userLng.value), enterprise['lat'], enterprise['lng']);
     return distance;
@@ -144,27 +149,42 @@ class HomeController extends GetxController {
     productDstList.sort((a, b) => a.distance.compareTo(b.distance));
     if (productDstList.length == 0) {
       Get.snackbar("Search", "Không tìm thấy sản phẩm trong vòng 10.km !",
-          titleText: Text(
+          titleText: const Text(
             'Search',
             style: TextStyle(color: Colors.red, fontSize: 25),
           ),
-          messageText: Text(
+          messageText: const Text(
             'Không tìm thấy sản phẩm trong vòng 10.km !',
             style: TextStyle(color: Colors.black, fontSize: 15),
           ));
-    } else {
-      // Get.snackbar(
-      //   "Search",
-      //   "Đã tìm thấy sản phẩm !",
-      //   titleText: Text(
-      //     'Search',
-      //     style: TextStyle(color: Colors.green, fontSize: 25),
-      //   ),
-      //   messageText: Text(
-      //     "Đã tìm thấy sản phẩm !",
-      //     style: TextStyle(color: Colors.black, fontSize: 15),
-      //   ),
-      // );
+    } else {}
+  }
+
+  Future<void> findSuggestedProductsLoop(List<ProductModel> ProductList,
+      List<ProductDistance> productDstList) async {
+    for (var i = 0; i < ProductList.length; i++) {
+      dynamic enterprise = await ProductServices.getEnterpriseOfProduct(
+          Eid: ProductList[i].E_id);
+      double distance = _coordinateDistance(double.parse(userLat.value),
+          double.parse(userLng.value), enterprise['lat'], enterprise['lng']);
+
+      productDstList
+          .add(ProductDistance(product: ProductList[i], distance: distance));
+      productDstList.sort((a, b) => a.distance.compareTo(b.distance));
     }
+    if (productDstList.length == 0) {
+      Get.snackbar(
+        "Search",
+        "Không tìm thấy sản phẩm trong vòng 10.km !",
+        titleText: const Text(
+          'Search',
+          style: TextStyle(color: Colors.red, fontSize: 25),
+        ),
+        messageText: const Text(
+          'Không tìm thấy sản phẩm trong vòng 10.km !',
+          style: TextStyle(color: Colors.black, fontSize: 15),
+        ),
+      );
+    } else {}
   }
 }

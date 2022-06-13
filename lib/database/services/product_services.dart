@@ -120,6 +120,26 @@ class ProductServices {
     return [];
   }
 
+  static Future<List<ProductModel>> getSuggestedProducts() async {
+    final url = Uri.parse(baseApi + 'product/getSuggestedProducts');
+    final storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'token');
+    var response = await client.get(url, headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+      "Authorization": 'Basic $value',
+    });
+    //var res = response.body;
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = jsonDecode(response.body)['data'];
+      if (jsonResponse.isEmpty) {
+        return [];
+      }
+      return jsonResponse.map((item) => ProductModel.fromMap(item)).toList();
+    }
+    return [];
+  }
+
   static Future<List<ProductModel>> getAllProductList() async {
     final url = Uri.parse(baseApi + 'product/getALLProduct');
 
@@ -237,8 +257,7 @@ class ProductServices {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print(response.statusCode);
-      return null;
+      return response.body;
     }
   }
 
@@ -265,8 +284,7 @@ class ProductServices {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print(response.statusCode);
-      return null;
+      return response.body;
     }
   }
 }

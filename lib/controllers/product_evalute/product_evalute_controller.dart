@@ -97,23 +97,39 @@ class EvaluteController extends GetxController {
       } else {
         Get.back();
         isLoading(true);
-        await ProductServices.editEvaluate(
+        var data = await ProductServices.editEvaluate(
           pID: idProduct.value,
           score: rate.value,
           comment: commentController.text,
         );
+        String mess = '';
+        bool warning = false;
+        if (data != null) {
+          var res = jsonDecode(data);
+          print(res);
+          mess = res['message'];
+          print('Lap - $mess');
+        }
+        if (mess ==
+                'Bạn đã vi phạm nguyên tắc đánh giá của FindWhere! Nếu còn cố tình tái phạm bạn sẽ bị khóa tài khoản!' ||
+            mess ==
+                'Bạn đã bị khóa tài khoản do liên tục vi phạm nguyên tắc đánh giá của FindWhere! Nếu có bất cứ thắc mắc nào xin liên hệ email: phamduylap123456@gmail.com') {
+          warning = true;
+        }
         commentList.value.clear();
         totalComment.value = TotalComment();
         Get.snackbar(
           "Evaluate",
           "Đánh giá sản phẩm thành công !",
-          titleText: const Text(
+          titleText: Text(
             'Evaluate',
-            style: TextStyle(color: Colors.green, fontSize: 25),
+            style: TextStyle(
+                color: warning == true ? Colors.red : Colors.green,
+                fontSize: 25),
           ),
-          messageText: const Text(
-            'Đã chỉnh sửa đánh giá !',
-            style: TextStyle(color: Colors.black, fontSize: 15),
+          messageText: Text(
+            mess,
+            style: const TextStyle(color: Colors.black, fontSize: 15),
           ),
         );
         onGetCommentList();
@@ -136,22 +152,38 @@ class EvaluteController extends GetxController {
       } else {
         Get.back();
         isLoading(true);
-        await ProductServices.addEvaluate(
+        var data = await ProductServices.addEvaluate(
           pID: idProduct.value,
           score: rate.value,
           comment: commentController.text,
         );
+        String mess = '';
+        bool warning = false;
+        if (data != null) {
+          var res = jsonDecode(data);
+          print(res);
+          mess = res['message'];
+          print('Lap - $mess');
+        }
+        if (mess ==
+                'Bạn đã vi phạm nguyên tắc đánh giá của FindWhere! Nếu còn cố tình tái phạm bạn sẽ bị khóa tài khoản!' ||
+            mess ==
+                'Bạn đã bị khóa tài khoản do liên tục vi phạm nguyên tắc đánh giá của FindWhere! Nếu có bất cứ thắc mắc nào xin liên hệ email: phamduylap123456@gmail.com') {
+          warning = true;
+        }
         commentList.value.clear();
         totalComment.value = TotalComment();
         Get.snackbar(
           "Evaluate",
           "Đánh giá sản phẩm thành công !",
-          titleText: const Text(
+          titleText: Text(
             'Evaluate',
-            style: TextStyle(color: Colors.green, fontSize: 25),
+            style: TextStyle(
+                color: warning == true ? Colors.red : Colors.green,
+                fontSize: 25),
           ),
-          messageText: const Text(
-            'Đánh giá sản phẩm thành công !!',
+          messageText: Text(
+            mess,
             style: TextStyle(color: Colors.black, fontSize: 15),
           ),
         );

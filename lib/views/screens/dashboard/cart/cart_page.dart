@@ -27,7 +27,7 @@ class CartPage extends GetView<CartController> {
             icon: const Icon(Icons.arrow_back),
             color: Colors.white,
             onPressed: () {
-              Get.back();
+              Get.back(result: true);
             },
           ),
           title: const Text(
@@ -228,27 +228,45 @@ class CartPage extends GetView<CartController> {
                   color: Colors.red, fontSize: 22, fontFamily: 'Comfortaa'),
               middleText: 'Bạn có chắc chắn muốn đặt đơn hàng này không ?',
               cancel: ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: const BorderSide(color: Colors.red),
-                      ),
+                onPressed: () {
+                  Get.back();
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: const BorderSide(color: Colors.red),
                     ),
                   ),
-                  child: const Text(
-                    'Hủy',
-                    style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
-                  )),
+                ),
+                child: const Text(
+                  'Hủy',
+                  style: TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+                ),
+              ),
               confirm: ElevatedButton(
                 onPressed: () async {
-                  Get.back(result: 'true');
-                  controller.placeOrder(context: context);
+                  if (controller.isLoading.value == false) {
+                    if (controller.phoneNumber == '') {
+                      Get.back();
+                      Get.snackbar(
+                        "",
+                        "",
+                        titleText: const Text(
+                          'Giỏ hàng',
+                          style: TextStyle(color: Colors.red, fontSize: 25),
+                        ),
+                        messageText: const Text(
+                          'Cập nhật số điện thoại trong thông tin cá nhân để tiếp tục!',
+                          style: TextStyle(color: Colors.black, fontSize: 15),
+                        ),
+                      );
+                    } else {
+                      Get.back(result: 'true');
+                      controller.placeOrder(context: context);
+                    }
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:

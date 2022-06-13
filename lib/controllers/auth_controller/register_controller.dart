@@ -3,6 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/database/services/auth_services.dart';
 
+import '../../views/screens/auth/verify_email.dart';
+
 class RegisterController extends GetxController {
   var isLoading = false.obs;
   final RegisterFormKey = GlobalKey<FormState>();
@@ -42,15 +44,39 @@ class RegisterController extends GetxController {
 
   String? validateEmail(String value) {
     if (!GetUtils.isEmail(value)) {
-      return "Wrong Email !";
+      return "Sai định dạng email !";
+    } else if (value == '') {
+      return "Không để trống !";
     } else {
       return null;
     }
   }
 
   String? validatePassword(String value) {
-    if (value.length <= 5) {
-      return "Your password is so short !";
+    if (value == '') {
+      return "Không để trống !";
+    } else if (value.length <= 5) {
+      return "Mật khẩu quá ngắn !";
+    } else {
+      return null;
+    }
+  }
+
+  String? validateConfirmPassword(String value) {
+    if (value == '') {
+      return "Không để trống !";
+    } else if (value.length <= 5) {
+      return "Mật khẩu quá ngắn !";
+    } else if (value != confirmPasswordController.text) {
+      return "Mật khẩu nhập lại không trùng khớp!";
+    } else {
+      return null;
+    }
+  }
+
+  String? validateNull(String value) {
+    if (value == '') {
+      return "Không để trống !";
     } else {
       return null;
     }
@@ -70,28 +96,33 @@ class RegisterController extends GetxController {
         if (data != null) {
           //await storage.write(key: "name", value: data);
           RegisterFormKey.currentState!.save();
-          Get.back();
-          Get.snackbar(
-            "Register",
-            "Đăng ký thành công, hãy đăng nhập!",
-            titleText: Text(
-              'Register',
-              style: TextStyle(color: Colors.green, fontSize: 25),
-            ),
-            messageText: Text(
-              'Đăng ký thành công, hãy đăng nhập!',
-              style: TextStyle(color: Colors.black, fontSize: 15),
-            ),
+          var result = await Get.to(
+            () => VerifyEmailScreen(email: emailController.text),
           );
+          if (result == true) {
+            Get.back();
+            Get.snackbar(
+              "Verify Email",
+              "",
+              titleText: const Text(
+                'Verify Email',
+                style: TextStyle(color: Colors.green, fontSize: 25),
+              ),
+              messageText: const Text(
+                'Xác nhận Email thành công !',
+                style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            );
+          }
         } else {
           Get.snackbar(
             "Register",
             "Có lỗi xảy ra ! Kiểm tra lại thông tin.(Email - Username)",
-            titleText: Text(
+            titleText: const Text(
               'Register',
               style: TextStyle(color: Colors.red, fontSize: 25),
             ),
-            messageText: Text(
+            messageText: const Text(
               'Có lỗi xảy ra ! Kiểm tra lại thông tin.(Email - Username)',
               style: TextStyle(color: Colors.black, fontSize: 15),
             ),

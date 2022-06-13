@@ -40,7 +40,7 @@ class Login extends GetView<LoginController> {
                         ))
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 CustomText(
                   text: 'Login to Continue !',
                   color: Colors.black26,
@@ -52,10 +52,10 @@ class Login extends GetView<LoginController> {
                   height: 250,
                   fit: BoxFit.cover,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 CustomTextFormField(
                     controller: controller.userName_controller,
                     text: 'Username/Email',
@@ -63,8 +63,10 @@ class Login extends GetView<LoginController> {
                     onSave: (value) {
                       controller.userName = value!;
                     },
-                    validator: (value) {}),
-                SizedBox(height: 20),
+                    validator: (value) {
+                      return controller.validateNull(value!);
+                    }),
+                const SizedBox(height: 20),
                 CustomTextFormField(
                     controller: controller.userPwd_controller,
                     passCheck: true,
@@ -73,19 +75,27 @@ class Login extends GetView<LoginController> {
                     onSave: (value) {
                       controller.userPwd = value!;
                     },
-                    validator: (value) {}),
-                SizedBox(height: 15),
-                CustomText(
-                  text: 'Forgot Password ?',
-                  fontsize: 15,
-                  alignment: Alignment.topRight,
+                    validator: (value) {
+                      return controller.validateNull(value!);
+                    }),
+                const SizedBox(height: 15),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.forgot);
+                  },
+                  child: CustomText(
+                    text: 'Forgot Password ?',
+                    fontsize: 15,
+                    alignment: Alignment.topRight,
+                    color: Colors.blue,
+                  ),
                 ),
                 Obx(
                   () => controller.isLoading.value == true
                       ? const Center(child: CircularProgressIndicator())
                       : const Text(""),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 CustomButton(
                   text: 'Sign in',
                   color: Colors.orangeAccent,

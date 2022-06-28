@@ -6,6 +6,7 @@ import 'package:grab_clone/database/models/order_user/order_model.dart';
 import 'package:grab_clone/views/screens/dashboard/order/order_detail_screen.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../bindings/order_detail_binding.dart';
 import '../../../../controllers/enterprise_role_controller/enterprise_order_controller.dart';
 
 class EnterpriseOrderPage extends GetView<EnterpriseOrderController> {
@@ -50,6 +51,7 @@ class EnterpriseOrderPage extends GetView<EnterpriseOrderController> {
                             onTap: () {
                               Get.to(
                                 () => OrderDetailPage(orderItem: currentItem),
+                                binding: OrderDetailBingding(),
                               );
                             },
                             child: ListTile(

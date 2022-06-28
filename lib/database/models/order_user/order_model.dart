@@ -13,9 +13,13 @@ class OrderModel {
   double? lng;
   String enterpriseID;
   String enterpriseName;
+  String? shipperID;
+  String? shipperName;
   int? discount;
   int? totalPrice;
-  bool isConfirm;
+  int? shipCost;
+  int status;
+  bool isOnlinePayment;
   DateTime orderDate;
   OrderModel({
     required this.orderDetail,
@@ -27,9 +31,13 @@ class OrderModel {
     required this.name,
     required this.enterpriseID,
     required this.enterpriseName,
+    required this.shipperID,
+    required this.shipperName,
     required this.discount,
     required this.totalPrice,
-    required this.isConfirm,
+    required this.shipCost,
+    required this.status,
+    required this.isOnlinePayment,
     required this.orderDate,
     required this.id,
   });
@@ -45,9 +53,13 @@ class OrderModel {
     String? name,
     String? enterpriseID,
     String? enterpriseName,
+    String? shipperID,
+    String? shipperName,
     int? discount,
     int? totalPrice,
-    bool? isConfirm,
+    int? shipCost,
+    int? status,
+    bool? isOnlinePayment,
     DateTime? orderDate,
   }) {
     return OrderModel(
@@ -61,9 +73,13 @@ class OrderModel {
       name: name ?? this.name,
       enterpriseID: enterpriseID ?? this.enterpriseID,
       enterpriseName: enterpriseName ?? this.enterpriseName,
+      shipperID: shipperID ?? this.shipperID,
+      shipperName: shipperName ?? this.shipperName,
       discount: discount ?? this.discount,
       totalPrice: totalPrice ?? this.totalPrice,
-      isConfirm: isConfirm ?? this.isConfirm,
+      shipCost: shipCost ?? this.shipCost,
+      status: status ?? this.status,
+      isOnlinePayment: isOnlinePayment ?? this.isOnlinePayment,
       orderDate: orderDate ?? this.orderDate,
     );
   }
@@ -80,10 +96,14 @@ class OrderModel {
       'location': location,
       'enterpriseID': enterpriseID,
       'enterpriseName': enterpriseName,
+      'shipperID': shipperID,
+      'shipperName': shipperName,
       'discount': discount,
       'totalPrice': totalPrice,
-      'isConfirm': isConfirm,
+      'shipCost': shipCost,
+      'status': status,
       'orderDate': orderDate,
+      'isOnlinePayment': isOnlinePayment,
     };
   }
 
@@ -92,8 +112,8 @@ class OrderModel {
       orderDetail: (map['orderDetail'] as List<dynamic>)
           .map((item) => CartModel.fromMap(item))
           .toList(),
-      lat: double.tryParse((map['price'] ?? 0).toString()),
-      lng: double.tryParse((map['score'] ?? 0).toString()),
+      lat: double.tryParse((map['lat'] ?? 0).toString()),
+      lng: double.tryParse((map['lng'] ?? 0).toString()),
       id: map['_id'],
       userID: map['userID'],
       name: map['name'],
@@ -101,9 +121,13 @@ class OrderModel {
       location: map['location'],
       enterpriseID: map['enterpriseID'],
       enterpriseName: map['enterpriseName'],
+      shipperID: map['shipperID'],
+      shipperName: map['shipperName'],
       discount: map['discount'],
       totalPrice: map['totalPrice'],
-      isConfirm: map['isConfirm'],
+      shipCost: map['shipCost'],
+      status: map['status'],
+      isOnlinePayment: map['isOnlinePayment'],
       orderDate: DateTime.parse(map['orderDate'].toString()),
     );
   }
@@ -115,6 +139,6 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(_id: $id,userID: $userID,phone:$phone, name: $name, location: $location, lat: $lat, lng: $lng, orderDetail: $orderDetail, enterpriseID: $enterpriseID, enterpriseName: $enterpriseName, discount: $discount, totalPrice: $totalPrice, isConfirm: $isConfirm, orderDate: $orderDate)';
+    return 'OrderModel(_id: $id,userID: $userID,phone:$phone, name: $name, location: $location, lat: $lat, lng: $lng, orderDetail: $orderDetail, enterpriseID: $enterpriseID, enterpriseName: $enterpriseName, shipperID: $shipperID, shipperName: $shipperName, discount: $discount, totalPrice: $totalPrice,shipCost:$shipCost, status: $status,isOnlinePayment:$isOnlinePayment, orderDate: $orderDate)';
   }
 }

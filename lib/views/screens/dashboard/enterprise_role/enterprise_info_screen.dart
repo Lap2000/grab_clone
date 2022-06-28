@@ -19,7 +19,7 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
         ),
       ),
       appBar: AppBar(
-        title: Text('Thông tin cửa hàng'),
+        title: const Text('Thông tin cửa hàng'),
         backgroundColor: Colors.orangeAccent,
         centerTitle: true,
         leading: IconButton(
@@ -48,7 +48,8 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
               Obx(
                 () => Text(
                   controller.name.value,
-                  style: TextStyle(fontSize: 40, fontFamily: 'Comfortaa-bold'),
+                  style: const TextStyle(
+                      fontSize: 40, fontFamily: 'Comfortaa-bold'),
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.clip,
@@ -59,21 +60,21 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   const Text(
                     'Username :',
                     style: TextStyle(fontSize: 25, fontFamily: 'Comfortaa'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Obx(
                     () => Expanded(
                       child: Text(
                         controller.userName.value,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 25,
                           fontFamily: 'Comfortaa',
                           color: Colors.grey,
@@ -102,7 +103,7 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
                   Obx(
                     () => Text(
                       controller.phone.value,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 25,
                         fontFamily: 'Comfortaa',
                         color: Colors.grey,
@@ -116,21 +117,21 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   const Text(
                     'Email :',
                     style: TextStyle(fontSize: 25, fontFamily: 'Comfortaa'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
                       child: Obx(
                     () => Text(
                       controller.email.value,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 25,
                         fontFamily: 'Comfortaa',
                         color: Colors.grey,
@@ -152,7 +153,7 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
                     'Ngày liên kết :',
                     style: TextStyle(fontSize: 25, fontFamily: 'Comfortaa'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -161,7 +162,7 @@ class EnterpriseInfoScreen extends GetView<EnterpriseInfoController> {
                         DateFormat.yMMMd()
                             .add_jm()
                             .format(controller.dateOfBirth.value),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 25,
                           fontFamily: 'Comfortaa',
                           color: Colors.grey,

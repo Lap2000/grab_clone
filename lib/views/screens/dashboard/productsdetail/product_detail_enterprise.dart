@@ -9,8 +9,10 @@ import 'evaluate/evaluates_page.dart';
 
 class ProductsDetailEnterprisePage extends StatelessWidget {
   final ProductModel productModel;
+  final bool enteprise;
 
-  const ProductsDetailEnterprisePage({Key? key, required this.productModel})
+  const ProductsDetailEnterprisePage(
+      {Key? key, required this.productModel, this.enteprise = false})
       : super(key: key);
 
   @override

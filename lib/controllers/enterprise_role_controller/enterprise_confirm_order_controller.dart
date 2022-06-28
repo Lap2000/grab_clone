@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 
 import '../../database/models/order_user/order_model.dart';
-import '../../database/services/order_services.dart';
 
 class EnterpriseConfirmOrderController extends GetxController {
   RxInt count = 0.obs;
@@ -22,7 +19,7 @@ class EnterpriseConfirmOrderController extends GetxController {
 
   @override
   void onReady() {
-    getOrderNotConfirm();
+    // getOrderNotConfirm();
     super.onReady();
   }
 
@@ -31,17 +28,17 @@ class EnterpriseConfirmOrderController extends GetxController {
     super.dispose();
   }
 
-  getOrderNotConfirm() async {
-    isLoading1(true);
-    var data1 = await OrderServices.getNotConfirmProductsOrder();
-    try {
-      if (data1 != null) {
-        List<dynamic> jsonResponse = jsonDecode(data1)['data'];
-        orderNotConfirmList.value =
-            jsonResponse.map((item) => OrderModel.fromMap(item)).toList();
-      } else {}
-    } finally {
-      isLoading1(false);
-    }
-  }
+  // getOrderNotConfirm() async {
+  //   isLoading1(true);
+  //   var data1 = await OrderServices.getNotConfirmProductsOrder();
+  //   try {
+  //     if (data1 != null) {
+  //       List<dynamic> jsonResponse = jsonDecode(data1)['data'];
+  //       orderNotConfirmList.value =
+  //           jsonResponse.map((item) => OrderModel.fromMap(item)).toList();
+  //     } else {}
+  //   } finally {
+  //     isLoading1(false);
+  //   }
+  // }
 }

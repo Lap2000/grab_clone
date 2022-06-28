@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grab_clone/controllers/products_detail_controller.dart';
 import 'package:grab_clone/database/models/distant_model.dart';
 
 import 'componentDetails/detail_container.dart';
 
-class ProductsDetailPage extends StatelessWidget {
+class ProductsDetailPage extends GetView<ProductsDetailController> {
   final ProductDistance productDistance;
 
   ProductsDetailPage({Key? key, required ProductDistance productDis})
@@ -13,6 +15,7 @@ class ProductsDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.price.value = productDistance.product.price!;
     return SafeArea(
         child: Scaffold(
       extendBodyBehindAppBar: true,
@@ -64,9 +67,15 @@ class ProductsDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: DetailContainer(
-                productDistance: productDistance,
+            Obx(
+              () => Expanded(
+                child: DetailContainer(
+                  productDistance: productDistance,
+                  isLarge: controller.isLarge.value,
+                  price: controller.price.value,
+                  changeLarge: () => controller.onChangeSize(true),
+                  changeMedium: () => controller.onChangeSize(false),
+                ),
               ),
             ),
           ],

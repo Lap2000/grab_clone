@@ -10,9 +10,13 @@ import 'map/map_page.dart';
 
 class ButtonRow extends StatelessWidget {
   final ProductDistance productDistance;
+  final double price;
+  final bool size;
   const ButtonRow({
     Key? key,
     required this.productDistance,
+    required this.price,
+    required this.size,
   }) : super(key: key);
 
   @override
@@ -96,8 +100,9 @@ class ButtonRow extends StatelessWidget {
                   pID: productDistance.product.id,
                   pName: productDistance.product.name,
                   pAmount: '1',
-                  pPrice: productDistance.product.price.toString(),
+                  pPrice: price,
                   pImage: productDistance.product.imagesProduct[0].toString(),
+                  isLarge: size,
                 );
                 // ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
                 // ScaffoldMessenger.of(context).showMaterialBanner(

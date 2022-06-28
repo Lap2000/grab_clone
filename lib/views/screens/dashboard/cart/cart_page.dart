@@ -127,38 +127,75 @@ class CartPage extends GetView<CartController> {
                     height: 10,
                   ),
                   Container(
-                      height: MediaQuery.of(context).size.height / 8,
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black87.withOpacity(0.3),
-                            spreadRadius: 1,
-                            blurRadius: 1,
-                            offset: const Offset(
-                                1, 1), // changes position of shadow
+                    height: MediaQuery.of(context).size.height / 7,
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black87.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset:
+                              const Offset(1, 1), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Obx(
+                                  () => Text(
+                                    'Tổng giá giỏ hàng:  ${NumberFormat("#,##0", "en_US").format(controller.totalCart.value).toString()} VNĐ',
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.black87),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Obx(
+                                  () => Text(
+                                    'Phí giao hàng:  ${NumberFormat("#,##0", "en_US").format(controller.shippingPrice.value).toString()} VNĐ',
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black87),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Obx(
+                                  () => Text(
+                                    'Khoảng cách:  ${controller.distanceEnterprise} km',
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black87,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                ),
+                              ),
+                              // Text(
+                              //   'Số lượng: \$' + '${controller.totalCart.value}',
+                              //   style: TextStyle(fontSize: 18, color: Colors.grey),
+                              // ),
+                            ],
                           ),
                         ],
                       ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Obx(
-                              () => Text(
-                                'Tổng giá giỏ hàng:  ${NumberFormat("#,##0", "en_US").format(controller.totalCart.value).toString()} VNĐ',
-                                style: const TextStyle(
-                                    fontSize: 18, color: Colors.black87),
-                              ),
-                            ),
-                          ),
-                          // Text(
-                          //   'Số lượng: \$' + '${controller.totalCart.value}',
-                          //   style: TextStyle(fontSize: 18, color: Colors.grey),
-                          // ),
-                        ],
-                      )),
+                    ),
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -263,8 +300,10 @@ class CartPage extends GetView<CartController> {
                         ),
                       );
                     } else {
-                      Get.back(result: 'true');
-                      controller.placeOrder(context: context);
+                      // Get.back(result: 'true');
+                      // controller.placeOrder(context: context);
+                      Get.back();
+                      onPayment(context);
                     }
                   }
                 },
@@ -295,5 +334,118 @@ class CartPage extends GetView<CartController> {
         ),
       ),
     );
+  }
+
+  onPayment(BuildContext context) {
+    bool isValidate = controller.locationFormKey.currentState!.validate();
+    if (isValidate) {
+      Get.defaultDialog(
+        middleTextStyle: const TextStyle(fontSize: 18, fontFamily: 'Comfortaa'),
+        title: 'Phương thức thanh toán',
+        titleStyle: const TextStyle(
+            color: Colors.red, fontSize: 26, fontFamily: 'Comfortaa'),
+        middleText: 'Hãy chọn phương thức thanh toán !',
+        content: Column(
+          children: [
+            InkWell(
+              onTap: () {
+                Get.back(result: 'true');
+                controller.placeOrder(context: context, payType: 0);
+              },
+              child: Container(
+                height: 100,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Container(
+                        height: 60,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black87.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset: const Offset(
+                                  1, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Image.network(
+                          'http://invina.vn/upload/tm22.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Thanh toán trực tiếp.',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontFamily: 'Comfortaa'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Get.back(result: false);
+                controller.placeOrder(context: context, payType: 1);
+              },
+              child: Container(
+                height: 100,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Container(
+                        height: 60,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black87.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset: const Offset(
+                                  1, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Image.network(
+                          'https://play-lh.googleusercontent.com/DvCn_h3AdLNNDcv3ftqTqP83gw6h65GMEPg3x6u788wB3F3ENNFcHgrHcWJNOPy4epg',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Thanh toán qua ví VNPAY.',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontFamily: 'Comfortaa'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

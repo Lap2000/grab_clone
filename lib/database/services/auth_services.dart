@@ -38,6 +38,34 @@ class AuthServices {
     }
   }
 
+  static register2(
+      {required name,
+      required userName,
+      required email,
+      required userPwd}) async {
+    final url = Uri.parse(baseApi + 'user/registerUserByGoogleAccount');
+    var response = await client.post(
+      url,
+      headers: {'Accept': 'application/json'},
+      body: {
+        "name": name,
+        "email": email,
+        "userName": userName,
+        "userPwd": userPwd,
+      },
+    );
+    var res = response.body;
+    print('register $res');
+    if (response.statusCode == 200) {
+      var stringOject = response.body;
+      return stringOject;
+    } else if (response.body == 'Đăng ký thành công') {
+    } else {
+      print('rest api fail! + ' + response.statusCode.toString());
+      return null;
+    }
+  }
+
   static login({required userName, required userPwd}) async {
     final url = Uri.parse(baseApi + 'user/login');
     print('login');
@@ -56,7 +84,6 @@ class AuthServices {
       return stringOject;
     } else {
       var stringOject1 = jsonDecode(res);
-      print(stringOject1['message']);
       return stringOject1;
     }
   }

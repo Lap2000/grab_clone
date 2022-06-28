@@ -17,6 +17,7 @@ class EvaluteController extends GetxController {
   late TextEditingController commentController;
   late RxDouble rate = 0.0.obs;
   late RxBool isValuated = false.obs;
+  late RxBool enterprise = false.obs;
 
   void onInit() {
     commentController = TextEditingController();
@@ -25,7 +26,9 @@ class EvaluteController extends GetxController {
 
   void onReady() {
     onGetCommentList();
-    getUserEvaluate();
+    if (enterprise.value == true) {
+      getUserEvaluate();
+    }
     super.onReady();
   }
 
@@ -66,10 +69,10 @@ class EvaluteController extends GetxController {
   getUserEvaluate() async {
     try {
       var data = await ProductServices.getUserEvaluate(pID: idProduct.value);
-      if (data != null) {
+      if (jsonDecode(data)['data']['score'] != null) {
         print(jsonDecode(data));
         isValuated.value = true;
-        commentController.text = jsonDecode(data)['data']['comment'];
+        commentController.text = '${jsonDecode(data)['data']['comment']}';
         rate.value = jsonDecode(data)['data']['score'].toDouble();
       } else {
         commentController.text = 'Bạn chưa đánh giá sản phẩm này';

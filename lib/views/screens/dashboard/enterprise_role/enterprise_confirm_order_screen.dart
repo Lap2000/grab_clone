@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:grab_clone/bindings/order_detail_binding.dart';
 import 'package:grab_clone/controllers/enterprise_role_controller/enterprise_confirm_order_controller.dart';
 import 'package:grab_clone/database/models/order_user/order_model.dart';
+import 'package:grab_clone/database/services/order_services.dart';
 import 'package:grab_clone/views/screens/dashboard/order/order_detail_screen.dart';
 import 'package:intl/intl.dart';
 
@@ -36,80 +38,68 @@ class EnterpriseConfirmOrderPage
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Obx(
-                () => controller.isLoading1.value
-                    ? const Center(
+              child: StreamBuilder(
+                  stream: OrderServices.getNotConfirmProductsOrderFlow(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    List<OrderModel> orderConfirmList = [];
+                    if (snapshot.data == null) {
+                      return const Center(
                         child: CircularProgressIndicator(),
-                      )
-                    : ListView.builder(
-                        itemCount: controller.orderNotConfirmList.value.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          OrderModel currentItem =
-                              controller.orderNotConfirmList.value[index];
-                          return InkWell(
-                            onTap: () async {
-                              final result = await Get.to(
-                                () => OrderDetailPage(
-                                  orderItem: currentItem,
-                                  isConfirm: true,
+                      );
+                    } else {
+                      orderConfirmList = snapshot.data;
+                    }
+                    return ListView.builder(
+                      itemCount: orderConfirmList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        OrderModel currentItem = orderConfirmList[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => OrderDetailPage(
+                                orderItem: currentItem,
+                                isConfirm: true,
+                              ),
+                              binding: OrderDetailBingding(),
+                            );
+                          },
+                          child: ListTile(
+                            leading: Container(
+                              width: 48,
+                              height: 48,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              alignment: Alignment.center,
+                              child: const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  'https://nhathauxaydung24h.com/wp-content/uploads/2021/12/avatar-an-uong.jpg',
                                 ),
-                              );
-                              if (result == 'true') {
-                                Get.back();
-                                Get.snackbar(
-                                  "",
-                                  "",
-                                  titleText: const Text(
-                                    'Đơn hàng',
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 25),
-                                  ),
-                                  messageText: const Text(
-                                    'Đã xác nhận đơn hàng '
-                                    'Vào danh sách đơn hàng đã xác nhận để xem chi tiết!',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 15),
-                                  ),
-                                );
-                              }
-                            },
-                            child: ListTile(
-                              leading: Container(
-                                width: 48,
-                                height: 48,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                alignment: Alignment.center,
-                                child: const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    'https://nhathauxaydung24h.com/wp-content/uploads/2021/12/avatar-an-uong.jpg',
-                                  ),
-                                ),
-                              ),
-                              title: Text(
-                                currentItem.name,
-                                style: const TextStyle(
-                                    fontSize: 20, fontFamily: 'Comfortaa'),
-                              ),
-                              subtitle: Text(
-                                DateFormat.yMMMd()
-                                    .add_jm()
-                                    .format(currentItem.orderDate),
-                                style: const TextStyle(
-                                    fontSize: 18, fontFamily: 'Comfortaa'),
-                              ),
-                              trailing: Text(
-                                '${currentItem.totalPrice}đ',
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Comfortaa',
-                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                          );
-                        },
-                      ),
-              ),
+                            title: Text(
+                              currentItem.name,
+                              style: const TextStyle(
+                                  fontSize: 20, fontFamily: 'Comfortaa'),
+                            ),
+                            subtitle: Text(
+                              DateFormat.yMMMd()
+                                  .add_jm()
+                                  .format(currentItem.orderDate),
+                              style: const TextStyle(
+                                  fontSize: 18, fontFamily: 'Comfortaa'),
+                            ),
+                            trailing: Text(
+                              '${currentItem.totalPrice}đ',
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Comfortaa',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
           ],
         ),

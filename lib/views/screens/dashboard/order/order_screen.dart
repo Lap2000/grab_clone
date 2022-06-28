@@ -8,6 +8,8 @@ import 'package:grab_clone/views/screens/dashboard/order/order_detail_screen.dar
 import 'package:intl/intl.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
+import '../../../../bindings/order_detail_binding.dart';
+
 class OrderPage extends GetView<OrderController> {
   const OrderPage({Key? key}) : super(key: key);
 
@@ -46,7 +48,7 @@ class OrderPage extends GetView<OrderController> {
                       fontFamily: 'Comfortaa-Bold'),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               SizedBox(
@@ -74,16 +76,16 @@ class OrderPage extends GetView<OrderController> {
                   tabs: const <Widget>[
                     Tab(
                       child: Text(
-                        'Đơn hàng đang chờ',
+                        'Đang chờ',
                         style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.orangeAccent,
                             fontSize: 16,
                             fontFamily: 'Comfortaa'),
                       ),
                     ),
                     Tab(
                       child: Text(
-                        'Đơn hàng đã xác nhận',
+                        'Đã hoàn thành',
                         style: TextStyle(
                             color: Colors.green,
                             fontSize: 16,
@@ -115,7 +117,10 @@ class OrderPage extends GetView<OrderController> {
                                   onTap: () {
                                     Get.to(
                                       () => OrderDetailPage(
-                                          orderItem: currentItem),
+                                        orderItem: currentItem,
+                                        isUser: true,
+                                      ),
+                                      binding: OrderDetailBingding(),
                                     );
                                   },
                                   child: ListTile(
@@ -175,6 +180,7 @@ class OrderPage extends GetView<OrderController> {
                                         orderItem: currentItem,
                                         isEvaluate: true,
                                       ),
+                                      binding: OrderDetailBingding(),
                                     );
                                   },
                                   child: ListTile(

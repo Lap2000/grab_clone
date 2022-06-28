@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:grab_clone/bindings/products_detail_binding.dart';
 import 'package:grab_clone/controllers/product_evalute/enterprise_controller.dart';
 import 'package:grab_clone/database/models/distant_model.dart';
 import 'package:grab_clone/database/models/product_model.dart';
@@ -48,11 +50,11 @@ class EnterprisePage extends GetView<EnterpriseController> {
                 ),
               )),
           Positioned(
-            top: MediaQuery.of(context).size.height / 5,
+            top: MediaQuery.of(context).size.height / 6,
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Container(
-                height: 200,
+                height: 270,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white,
@@ -102,11 +104,14 @@ class EnterprisePage extends GetView<EnterpriseController> {
                                 Text(
                                   '${distance.toStringAsFixed(2)} km',
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    fontFamily: 'Comfortaa',
+                                  ),
                                 ),
                                 CustomText(
                                   text: 'Giao ngay',
+                                  fontsize: 16,
                                 ),
                               ],
                             ),
@@ -135,7 +140,42 @@ class EnterprisePage extends GetView<EnterpriseController> {
                               () => Text(
                                 controller.enterpriseModel.value.phone,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  fontFamily: 'Comfortaa',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                'https://www.publicdomainpictures.net/pictures/150000/nahled/open-icon.jpg',
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Obx(
+                              () => Text(
+                                controller.enterpriseModel.value.activeTime,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.redAccent,
+                                    fontFamily: 'Comfortaa'),
                               ),
                             ),
                           ],
@@ -148,7 +188,7 @@ class EnterprisePage extends GetView<EnterpriseController> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height / 5 + 200 + 20,
+            top: MediaQuery.of(context).size.height / 6 + 200 + 20 + 70,
             left: 10,
             child: CustomText(
               text: 'Danh sách sản phẩm',
@@ -157,16 +197,22 @@ class EnterprisePage extends GetView<EnterpriseController> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height / 5 + 200 + 20 + 20 + 10,
+            top: MediaQuery.of(context).size.height / 6 +
+                200 +
+                20 +
+                20 +
+                10 +
+                70,
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10),
               child: Container(
                 height: MediaQuery.of(context).size.height -
-                    (MediaQuery.of(context).size.height / 5 +
+                    (MediaQuery.of(context).size.height / 6 +
                         200 +
                         20 +
                         20 +
-                        10),
+                        10 +
+                        70),
                 width: MediaQuery.of(context).size.width - 20,
                 alignment: Alignment.center,
                 child: Obx(
@@ -186,14 +232,17 @@ class EnterprisePage extends GetView<EnterpriseController> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(
-                                      () => ProductsDetailPage(
-                                        productDis: ProductDistance(
-                                          distance: distance,
-                                          product: item,
+                                    if (item.isOutStock == false) {
+                                      Get.to(
+                                        () => ProductsDetailPage(
+                                          productDis: ProductDistance(
+                                            distance: distance,
+                                            product: item,
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                        binding: ProductsDetailBinding(),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -327,6 +376,40 @@ class EnterprisePage extends GetView<EnterpriseController> {
                                             ),
                                           ),
                                         ),
+                                        item.isOutStock
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Container(
+                                                  color: Colors.red
+                                                      .withOpacity(0.6),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 70),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Transform(
+                                                      transform:
+                                                          Matrix4.rotationZ(50),
+                                                      child: Column(
+                                                        children: const [
+                                                          Text(
+                                                            'Đã bán hết',
+                                                            style: TextStyle(
+                                                                fontSize: 25,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Comfortaa'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : const Center(),
                                       ],
                                     ),
                                   ),

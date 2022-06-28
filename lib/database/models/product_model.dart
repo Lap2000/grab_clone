@@ -1,7 +1,4 @@
-
-
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 
@@ -14,15 +11,18 @@ class ProductModel {
   double? price;
   List<String> imagesProduct;
   double? star;
-  ProductModel(
-      { required this.Types,
-        required this.imagesProduct,
-        required this.price,
-        required this.star,
-        required this.E_id,
-        required this.id,
-        required this.description,
-        required this.name,});
+  bool isOutStock;
+  ProductModel({
+    required this.Types,
+    required this.imagesProduct,
+    required this.price,
+    required this.star,
+    required this.E_id,
+    required this.id,
+    required this.description,
+    required this.isOutStock,
+    required this.name,
+  });
 
   ProductModel copyWith({
     List<String>? Types,
@@ -33,6 +33,7 @@ class ProductModel {
     String? description,
     String? id,
     String? name,
+    bool? isOutStock,
   }) {
     return ProductModel(
       Types: Types ?? this.Types,
@@ -42,6 +43,7 @@ class ProductModel {
       E_id: E_id ?? this.E_id,
       id: id ?? this.id,
       name: name ?? this.name,
+      isOutStock: isOutStock ?? this.isOutStock,
       description: description ?? this.description,
     );
   }
@@ -55,25 +57,24 @@ class ProductModel {
       'price': price,
       'score': star,
       'types': Types,
-      'description':description,
+      'description': description,
+      'isOutStock': isOutStock,
     };
   }
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-        Types: (map['types'] as List<dynamic>)
-            .map((e) => e.toString())
-            .toList(),
+        Types:
+            (map['types'] as List<dynamic>).map((e) => e.toString()).toList(),
         price: double.tryParse((map['price'] ?? 0).toString()),
         star: double.tryParse((map['score'] ?? 0).toString()),
-        imagesProduct: (map['images'] as List<dynamic>)
-            .map((e) => e.toString())
-            .toList(),
+        imagesProduct:
+            (map['images'] as List<dynamic>).map((e) => e.toString()).toList(),
         id: map['_id'],
         E_id: map['eID'],
         name: map['name'],
-        description: map['description']
-    );
+        isOutStock: map['isOutStock'],
+        description: map['description']);
   }
 
   String toJson() => json.encode(toMap());
@@ -83,7 +84,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(_id: $id,eID: $E_id,description:$description, name: $name, images: $imagesProduct, price: $price, score: $star, types: $Types)';
+    return 'ProductModel(_id: $id,isOutStock: $isOutStock,eID: $E_id,description:$description, name: $name, images: $imagesProduct, price: $price, score: $star, types: $Types)';
   }
 
   @override
@@ -98,18 +99,20 @@ class ProductModel {
         other.id == id &&
         other.description == description &&
         other.E_id == E_id &&
-        other.name == name ;
+        other.isOutStock == isOutStock &&
+        other.name == name;
   }
 
   @override
   int get hashCode {
     return Types.hashCode ^
-    price.hashCode ^
-    imagesProduct.hashCode ^
-    star.hashCode ^
-    id.hashCode ^
-    E_id.hashCode ^
-    description.hashCode ^
-    name.hashCode ;
+        price.hashCode ^
+        imagesProduct.hashCode ^
+        star.hashCode ^
+        id.hashCode ^
+        E_id.hashCode ^
+        description.hashCode ^
+        isOutStock.hashCode ^
+        name.hashCode;
   }
 }

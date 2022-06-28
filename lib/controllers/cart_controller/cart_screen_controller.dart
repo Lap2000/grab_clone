@@ -3,11 +3,16 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:grab_clone/bindings/payment_binding.dart';
 import 'package:grab_clone/database/models/cart/cart_model.dart';
 import 'package:grab_clone/database/services/cart_services.dart';
+import 'package:grab_clone/views/screens/dashboard/cart/payment_screen.dart';
+import 'package:grab_clone/views/widgets/custom_successful_payment.dart';
 
 import '../../database/services/account_services.dart';
+import '../../database/services/product_services.dart';
 
 class CartController extends GetxController {
   RxInt count = 0.obs;
@@ -23,6 +28,8 @@ class CartController extends GetxController {
   RxString eID = ''.obs;
   RxString eName = ''.obs;
   RxString tokenUser = ''.obs;
+  RxInt shippingPrice = 0.obs;
+  RxDouble distanceEnterprise = 0.0.obs;
   //late CartList cartModelList = CartList();
   //List<CartModel> cartListModel = [];
   //late Rx<CartList> cartList = Rx<CartList>(cartListInModel);
@@ -68,6 +75,42 @@ class CartController extends GetxController {
     userLat.value = (await storage.read(key: 'User_lat'))!;
     userLng.value = (await storage.read(key: 'User_lng'))!;
     print(userLat.value + " : " + userLng.value);
+    int? distance = int.tryParse(
+        (await getDistantItem(eID.value, userLat.value, userLng.value))
+            .toStringAsFixed(0));
+    print(distance);
+    if (distance == 0) {
+      shippingPrice.value = 10000;
+    } else {
+      shippingPrice.value = (distance! * 10000);
+    }
+    totalCart.value = totalCart.value + shippingPrice.value;
+  }
+
+  Future<double> getDistantItem(eID, lat, lng) async {
+    dynamic enterprise = await ProductServices.getEnterpriseOfProduct(Eid: eID);
+    double distance = _coordinateDistance(double.parse(lat), double.parse(lng),
+        enterprise['lat'], enterprise['lng']);
+    //print(distance);
+    distanceEnterprise.value = double.tryParse((distance).toStringAsFixed(2))!;
+    return distance;
+  }
+
+  double _coordinateDistance(
+      double lat1, double lon1, double lat2, double lon2) {
+    // var p = 0.017453292519943295;
+    // var c = cos;
+    // var a = 0.5 -
+    //     c((lat2 - lat1) * p) / 2 +
+    //     c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    // var d = (12742 * asin(sqrt(a))).toStringAsFixed(1);
+    // double e = double.parse(d);
+    // return e;
+
+    var distance =
+        Geolocator.distanceBetween(lat1, lon1, lat2, lon2); //distance in meters
+    //print(distance);
+    return distance / 1000;
   }
 
   deleteIteminCart(CartModel cartModel) {
@@ -167,7 +210,8 @@ class CartController extends GetxController {
           total = total + cartList.value[i].pTotal!;
         }
         try {
-          totalCart.value = int.parse(total.toStringAsFixed(0));
+          totalCart.value =
+              totalCart.value + int.parse((total).toStringAsFixed(0));
         } catch (e) {
           print('Lap-$e');
         }
@@ -177,7 +221,7 @@ class CartController extends GetxController {
     }
   }
 
-  placeOrder({required BuildContext context}) async {
+  placeOrder({required BuildContext context, required payType}) async {
     bool isValidate = locationFormKey.currentState!.validate();
     if (isValidate) {
       isOrder(true);
@@ -190,17 +234,33 @@ class CartController extends GetxController {
       //String jsonArray = jsonEncode(cartList);
       //print(jsonArray);
       //Array<dynamic> cart = cartList.value as Array<dynamic>;
-      var data = await Cartservices.placeOrder(
-          name: name.value,
-          phone: phoneNumber.value,
-          lat: userLat.value,
-          lng: userLng.value,
-          enterpriseName: eName.value,
-          location: locationController.text,
-          orderDetail: jsonDataList,
-          totalPrice: totalCart.value,
-          eID: eID.value,
-          context: context);
+      var data = await Cartservices.placeOrder2(
+        name: name.value,
+        phone: phoneNumber.value,
+        lat: userLat.value,
+        lng: userLng.value,
+        enterpriseName: eName.value,
+        location: locationController.text,
+        orderDetail: jsonDataList,
+        totalPrice: totalCart.value,
+        eID: eID.value,
+        context: context,
+        shipCost: shippingPrice.value,
+        payType: payType,
+      );
+      if (jsonDecode(data)['data'] != null && payType == 1) {
+        final result = await Get.to(
+            () => PaymentScreen(url: jsonDecode(data)['data']),
+            binding: PaymentBinding());
+        if (result == true) {
+          final rst = await Get.to(() => const CustomSuccessfulPayment());
+          if (rst == true) {
+            Get.back(result: true);
+          }
+        }
+      } else if (jsonDecode(data)['data'] != null && payType == 0) {
+        Get.back(result: 'true');
+      }
       try {} finally {
         isOrder(false);
       }

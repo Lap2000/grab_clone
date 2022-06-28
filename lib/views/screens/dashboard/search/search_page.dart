@@ -14,26 +14,68 @@ class SearchPage extends GetView<SearchController> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFF7F7F7),
-        body: CustomScrollView(
-          slivers: [
-            const SliverToBoxAdapter(child: SizedBox(height: 5)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: CustomSearchBar(
-                  controller: controller.findtextController,
-                  onClick: controller.onFind,
-                ),
+        body: Column(
+          children: [
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: CustomSearchBar(
+                controller: controller.findtextController,
+                onClick: controller.onFind,
+              ),
+            ),
+            // const SliverToBoxAdapter(child: SizedBox(height: 5)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                children: [
+                  const Text(
+                    'Bán kính tìm kiếm :',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontFamily: 'Comfortaa'),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Obx(
+                    () => DropdownButton(
+                      onChanged: (newValue) {
+                        controller.setSelected(newValue);
+                      },
+                      value: controller.findRSelected.value,
+                      items: <int>[1, 2, 3, 4, 5, 10, 15, 20, 30]
+                          .map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
+                          value: value,
+                          child: Text(value.toString()),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'Km',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontFamily: 'Comfortaa'),
+                  ),
+                ],
               ),
             ),
             Obx(() => controller.isLoading.value == true
-                ? const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()))
-                : const SliverToBoxAdapter(child: Center())),
+                ? Center(child: CircularProgressIndicator())
+                : Center()),
             Obx(() => !controller.productDistantsList.value.isEmpty
-                ? ListViewFoundProduct(
-                    productdisList: controller.productDistantsList.value)
-                : const SliverToBoxAdapter(child: Text(''))),
+                ? Expanded(
+                    child: ListViewFoundProduct(
+                        productdisList: controller.productDistantsList.value),
+                  )
+                : Text('')),
           ],
         ),
       ),

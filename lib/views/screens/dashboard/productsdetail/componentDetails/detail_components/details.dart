@@ -53,7 +53,7 @@ class Details extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             'Loại sản phẩm: ' + productDistance.product.Types.join(', '),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -66,7 +66,7 @@ class Details extends StatelessWidget {
                     .format(productDistance.product.price)
                     .toString() +
                 '   VND',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -83,7 +83,9 @@ class Details extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Khoảng cách:  ' + productDistance.distance.toStringAsFixed(2) + ' km',
+            'Khoảng cách:  ' +
+                productDistance.distance.toStringAsFixed(2) +
+                ' km',
             style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,

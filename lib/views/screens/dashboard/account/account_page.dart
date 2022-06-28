@@ -126,7 +126,15 @@ class AccountPage extends GetView<AccountController> {
                         color: Colors.grey,
                       ), () {
                     // Future.delayed(const Duration(milliseconds: 150), () {
-                    //   Get.to(() => EnterprisePage());
+                    //   Get.to(() => ShipperInfoScreen(),
+                    //       binding: ShipperInfoBinding());
+                    // });
+                    // Future.delayed(const Duration(milliseconds: 150), () {
+                    //   Get.to(() => const CustomSuccessfulPayment());
+                    // });
+
+                    // Future.delayed(const Duration(milliseconds: 150), () {
+                    //   Get.to(() => TrackOrderScreen());
                     // });
                   }),
                   buildAccountOption(

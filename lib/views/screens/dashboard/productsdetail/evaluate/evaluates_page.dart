@@ -16,6 +16,7 @@ class EvaluatePage extends GetView<EvaluteController> {
   @override
   Widget build(BuildContext context) {
     controller.idProduct.value = productModel.id;
+    controller.enterprise.value = isEvalute;
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,

@@ -103,6 +103,28 @@ class Login extends GetView<LoginController> {
                     controller.doLogin();
                   },
                 ),
+                const SizedBox(height: 10),
+                const Text(
+                  'OR',
+                  style: TextStyle(color: Colors.black54, fontSize: 20),
+                ),
+                const SizedBox(height: 10),
+                FloatingActionButton.extended(
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    controller.doLoginWithGoogle();
+                  },
+                  icon: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: Image.network(
+                        'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png'),
+                  ),
+                  label: const Text(
+                    'Sign in with Google',
+                    style: TextStyle(color: Colors.black54, fontSize: 20),
+                  ),
+                ),
               ],
             ),
           ),

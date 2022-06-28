@@ -90,7 +90,8 @@ class Cartservices {
       required pName,
       required pAmount,
       required pPrice,
-      required pImage}) async {
+      required pImage,
+      required bool isLarge}) async {
     final url = Uri.parse(baseApi + 'cart/addProductIntoCart');
     final storage = new FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
@@ -106,8 +107,9 @@ class Cartservices {
         "pID": pID,
         "pName": pName,
         "pAmount": pAmount,
-        "pPrice": pPrice,
-        "pImage": pImage
+        "pPrice": pPrice.toString(),
+        "pImage": pImage,
+        "isLarge": isLarge.toString()
       },
     );
     //print(jsonDecode(response.body));
@@ -171,18 +173,21 @@ class Cartservices {
     }
   }
 
-  static placeOrder(
-      {required BuildContext context,
-      required name,
-      required phone,
-      required location,
-      required lat,
-      required lng,
-      required enterpriseName,
-      required orderDetail,
-      required totalPrice,
-      required eID}) async {
-    final url = Uri.parse(baseApi + 'order/placeOrder');
+  static placeOrder2({
+    required BuildContext context,
+    required name,
+    required phone,
+    required location,
+    required lat,
+    required lng,
+    required enterpriseName,
+    required orderDetail,
+    required totalPrice,
+    required eID,
+    required shipCost,
+    required payType,
+  }) async {
+    final url = Uri.parse(baseApi + 'order/placeOrder2');
     final storage = FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
     Map<String, dynamic> body = {
@@ -196,6 +201,8 @@ class Cartservices {
       'eID': eID,
       'totalPrice': totalPrice,
       'discount': 0,
+      'shipCost': shipCost,
+      'payType': payType
     };
     var response = await client.post(
       url,
@@ -206,15 +213,6 @@ class Cartservices {
         "Authorization": 'Basic $token',
       },
       body: json.encode(body),
-      // body: {
-      //   "name": name,
-      //   "phone": phone,
-      //   "location": location,
-      //   "orderDetail": json.encode(orderDetail),
-      //   "totalPrice": totalPrice.toString(),
-      //   "eID": eID,
-      //   "discount": '0',
-      // },
     );
     //var res = response.body;
     Get.back(result: 'true');

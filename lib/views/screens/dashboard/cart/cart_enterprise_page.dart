@@ -52,24 +52,24 @@ class CartEnterprisePage extends GetView<CartEnterpriseController> {
                         );
                         if (result == 'true') {
                           controller.getCart();
-                          Get.snackbar(
-                            "",
-                            "",
-                            titleText: const Text(
-                              'Giỏ hàng',
-                              style:
-                                  TextStyle(color: Colors.green, fontSize: 25),
-                            ),
-                            messageText: const Text(
-                              'Đặt hàng thành công! '
-                              'Vào danh sách đơn hàng để xem chi tiết!',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
-                          );
+                          // Get.snackbar(
+                          //   "",
+                          //   "",
+                          //   titleText: const Text(
+                          //     'Giỏ hàng',
+                          //     style:
+                          //         TextStyle(color: Colors.green, fontSize: 25),
+                          //   ),
+                          //   messageText: const Text(
+                          //     'Đặt hàng thành công! '
+                          //     'Vào danh sách đơn hàng để xem chi tiết!',
+                          //     style:
+                          //         TextStyle(color: Colors.black, fontSize: 15),
+                          //   ),
+                          // );
                         } else if (result == true) {
                           controller.getCart();
-                        }
+                        } else if (result == false) {}
                       },
                       child: Container(
                         height: 100,

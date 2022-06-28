@@ -5,7 +5,8 @@ import 'package:grab_clone/database/models/product_model.dart';
 import '../../database/services/product_services.dart';
 
 class EnterpriseController extends GetxController {
-  late EnterpriseModel eModel = EnterpriseModel(name: '', phone: '', id: '');
+  late EnterpriseModel eModel = EnterpriseModel(
+      name: '', phone: '', id: '', lat: null, lng: null, activeTime: '');
   late Rx<EnterpriseModel> enterpriseModel = Rx(eModel);
   late RxList<ProductModel> productList = RxList<ProductModel>();
   final isLoading = false.obs;
@@ -33,6 +34,7 @@ class EnterpriseController extends GetxController {
           await ProductServices.getProductListOfEnterprise(
               id: idEnterprise.value);
       productList.value = _futureOfList;
+      productList.value.sort((b, a) => a.price!.compareTo(b.price!));
       if (!_futureOfList.isEmpty) {
         print(productList.value.length);
       } else {

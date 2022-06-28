@@ -287,4 +287,44 @@ class ProductServices {
       return response.body;
     }
   }
+
+  static getEnterPrise2({required id}) async {
+    final url = Uri.parse(baseApi + 'user/getEnterpriseById?id=' + id);
+
+    var response = await client.get(url, headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Accept": "application/json",
+    });
+    //var res = response.body;
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body)['data'];
+      if (jsonResponse.isEmpty) {
+        return null;
+      }
+      return jsonDecode(response.body)['data'];
+    }
+    return null;
+  }
+
+  static changeProductStatus({required id, required token}) async {
+    final url = Uri.parse(baseApi + 'product/changeProductStatus');
+    var response = await client.post(
+      url,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": 'Basic $token',
+      },
+      body: {
+        "id": id,
+      },
+    );
+    var res = response.body;
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.statusCode);
+      return null;
+    }
+  }
 }

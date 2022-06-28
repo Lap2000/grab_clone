@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grab_clone/database/models/order_user/order_model.dart';
-import 'package:grab_clone/database/services/order_services.dart';
+
+import '../../database/services/order_services.dart';
 
 class OrderController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -37,7 +38,7 @@ class OrderController extends GetxController
 
   getOrderNotConfirm() async {
     isLoading1(true);
-    var data1 = await OrderServices.getNotConfirmOrderByDate();
+    var data1 = await OrderServices.GetUserOnTheWayOrder();
     try {
       if (data1 != null) {
         List<dynamic> jsonResponse = jsonDecode(data1)['data'];

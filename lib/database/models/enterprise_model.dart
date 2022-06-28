@@ -4,18 +4,33 @@ class EnterpriseModel {
   final String id;
   final String phone;
   final String name;
+  final double? lat;
+  final double? lng;
+  final String activeTime;
 
-  EnterpriseModel({required this.id, required this.phone, required this.name});
+  EnterpriseModel(
+      {required this.lat,
+      required this.lng,
+      required this.id,
+      required this.phone,
+      required this.activeTime,
+      required this.name});
 
   EnterpriseModel copyWith({
     String? id,
     String? phone,
     String? name,
+    String? activeTime,
+    double? lat,
+    double? lng,
   }) {
     return EnterpriseModel(
       id: id ?? this.id,
       name: name ?? this.name,
       phone: phone ?? this.phone,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      activeTime: activeTime ?? this.activeTime,
     );
   }
 
@@ -24,6 +39,9 @@ class EnterpriseModel {
       '_id': id,
       'phone': phone,
       'name': name,
+      'lat': lat,
+      'lng': lng,
+      'activeTime': activeTime,
     };
   }
 
@@ -32,6 +50,9 @@ class EnterpriseModel {
       id: map['_id'],
       phone: map['phone'],
       name: map['name'],
+      activeTime: map['activeTime'],
+      lat: double.tryParse((map['lat'] ?? 0).toString()),
+      lng: double.tryParse((map['lng'] ?? 0).toString()),
     );
   }
 
@@ -42,6 +63,6 @@ class EnterpriseModel {
 
   @override
   String toString() {
-    return 'EnterpriseModel(_id: $id,uID: $phone name: $name)';
+    return 'EnterpriseModel(_id: $id,phone: $phone, name: $name,lat:$lat, lng:$lng,activeTime:$activeTime)';
   }
 }

@@ -86,7 +86,6 @@ class HomeController extends GetxController {
       }
     } finally {
       isLoading(false);
-      getAddress();
     }
   }
 
@@ -101,7 +100,6 @@ class HomeController extends GetxController {
       } else {}
     } finally {
       isLoading(false);
-      getAddress();
     }
   }
 

@@ -86,7 +86,7 @@ class CartItems extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Tổng giá: ${NumberFormat("#,##0", "en_US").format(cartModel.pTotal).toString()} VNĐ',
+                            'Giá: ${NumberFormat("#,##0", "en_US").format(cartModel.pTotal).toString()} VNĐ',
                             style: const TextStyle(
                                 fontSize: 16, color: Colors.black54),
                             overflow: TextOverflow.clip,

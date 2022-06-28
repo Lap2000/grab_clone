@@ -10,6 +10,7 @@ import 'package:grab_clone/database/models/cart/cart_model.dart';
 import 'package:grab_clone/database/services/cart_services.dart';
 import 'package:grab_clone/views/screens/dashboard/cart/payment_screen.dart';
 import 'package:grab_clone/views/widgets/custom_successful_payment.dart';
+import 'package:weather/weather.dart';
 
 import '../../database/services/account_services.dart';
 import '../../database/services/product_services.dart';
@@ -78,13 +79,56 @@ class CartController extends GetxController {
     int? distance = int.tryParse(
         (await getDistantItem(eID.value, userLat.value, userLng.value))
             .toStringAsFixed(0));
+    WeatherFactory wf = WeatherFactory("856822fd8e22db5e1ba48c0e7d69844a",
+        language: Language.ENGLISH);
+    Weather w = await wf.currentWeatherByLocation(
+        double.parse(userLat.value), double.parse(userLng.value));
+    // List<Weather> forecast = await wf.fiveDayForecastByLocation(
+    //     double.parse(userLat.value), double.parse(userLng.value));
+    // print('weather : ${w.weatherMain}');
+    // print('weather : ${forecast.first.weatherMain}');
+    // print('Time : ${DateTime.now().hour}');
     print(distance);
-    if (distance == 0) {
-      shippingPrice.value = 10000;
+    if (DateTime.now().hour >= 18) {
+      if (distance! <= 3) {
+        if (w.weatherMain == 'Rain') {
+          shippingPrice.value =
+              int.parse((17000 * 120 / 100 / 1000).toStringAsFixed(0)) * 1000;
+        } else
+          shippingPrice.value = 17000;
+      } else {
+        if (w.weatherMain == 'Rain') {
+          shippingPrice.value = int.parse(
+                  ((17000 + ((distance - 3) * 5000)) * 120 / 100 / 1000)
+                      .toStringAsFixed(0)) *
+              1000;
+        } else
+          shippingPrice.value = 17000 + ((distance - 3) * 5000);
+      }
+      shippingPrice.value =
+          int.parse((shippingPrice.value * 120 / 100).toStringAsFixed(0));
+      totalCart.value = int.parse(
+              ((totalCart.value + shippingPrice.value) / 1000)
+                  .toStringAsFixed(0)) *
+          1000;
     } else {
-      shippingPrice.value = (distance! * 10000);
+      if (distance! <= 3) {
+        if (w.weatherMain == 'Rain') {
+          shippingPrice.value =
+              int.parse((17000 * 120 / 100 / 1000).toStringAsFixed(0)) * 1000;
+        } else
+          shippingPrice.value = 17000;
+      } else {
+        if (w.weatherMain == 'Rain') {
+          shippingPrice.value = int.parse(
+                  ((17000 + ((distance - 3) * 5000)) * 120 / 100 / 1000)
+                      .toStringAsFixed(0)) *
+              1000;
+        } else
+          shippingPrice.value = 17000 + ((distance - 3) * 5000);
+      }
+      totalCart.value = totalCart.value + shippingPrice.value;
     }
-    totalCart.value = totalCart.value + shippingPrice.value;
   }
 
   Future<double> getDistantItem(eID, lat, lng) async {

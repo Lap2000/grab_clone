@@ -89,7 +89,8 @@ class CartController extends GetxController {
     // print('weather : ${forecast.first.weatherMain}');
     // print('Time : ${DateTime.now().hour}');
     print(distance);
-    if (DateTime.now().hour >= 18) {
+    if ((DateTime.now().hour <= 12 && DateTime.now().hour >= 11) ||
+        (DateTime.now().hour <= 19 && DateTime.now().hour >= 18)) {
       if (distance! <= 3) {
         if (w.weatherMain == 'Rain') {
           shippingPrice.value =
@@ -105,8 +106,9 @@ class CartController extends GetxController {
         } else
           shippingPrice.value = 17000 + ((distance - 3) * 5000);
       }
-      shippingPrice.value =
-          int.parse((shippingPrice.value * 120 / 100).toStringAsFixed(0));
+      shippingPrice.value = int.parse(
+              (shippingPrice.value * 120 / 100 / 1000).toStringAsFixed(0)) *
+          1000;
       totalCart.value = int.parse(
               ((totalCart.value + shippingPrice.value) / 1000)
                   .toStringAsFixed(0)) *
